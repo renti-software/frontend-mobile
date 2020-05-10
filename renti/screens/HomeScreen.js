@@ -5,6 +5,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import { MonoText } from '../components/StyledText';
 
+// Explore what __DEV__ means
+
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
