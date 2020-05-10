@@ -3,7 +3,7 @@
     "name": "Renti",
     "slug": "renti",
     "privacy": "public",
-    "sdkVersion":"36.0.0",
+    "sdkVersion":"37.0.0",
     "platforms": [
       "ios",
       "android",
@@ -16,7 +16,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2a9d8f"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
