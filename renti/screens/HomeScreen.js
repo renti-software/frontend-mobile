@@ -40,15 +40,15 @@ function renderItems() {
   
           <View style={{flexDirection:'column',flex:2}}>
             <View style={{flexDirection:'row',justifyContent:'flex-start',alignContent:'center', marginLeft:20}}>
-    <Text style={{fontSize:style.h3,fontWeight:'bold'}}>{item.name}</Text>
+              <Text style={{fontSize:style.h3,fontWeight:'bold'}}>{item.name}</Text>
             </View>
   
             <View style={{flexDirection:'row',justifyContent:'flex-start',alignContent:'center', marginLeft:20}}>
-    <Text style={{}}>{item.location}</Text>
+              <Text style={{}}>{item.location}</Text>
             </View>
   
             <View style={{flexDirection:'column',justifyContent:'flex-end',alignItems:'flex-start', marginLeft:20,paddingVertical:20}}>
-              <Text style={{color:colors.primary, fontWeight:'600',fontSize:style.h2}}>25.00€ /day</Text>
+    <Text style={{color:colors.primary, fontWeight:'600',fontSize:style.h2}}>{item.price}€ /day</Text>
             </View>
           
           </View>
