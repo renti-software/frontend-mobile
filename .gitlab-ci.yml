@@ -15,10 +15,10 @@ cache:
 lint:
   stage: Lint
   script:
-    - npm install eslint -g
+    - yarn install eslint -g
+    - yarn install eslint-plugin-react@latest -g
     - cd renti/
-    - npm install -g --only=dev
-    - npm install eslint-plugin-react@latest
+    - yarn install -g --only=dev
     - eslint --fix --max-warnings 20 src/ || echo "Skipping errors for now..."
 
 test:
