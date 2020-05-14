@@ -16,7 +16,7 @@ lint:
   stage: Lint
   script:
     - npm install eslint -g
-    - cd mylife/
+    - cd renti/
     - npm install -g --only=dev
     - npm install eslint-plugin-react@latest
     - eslint --fix --max-warnings 20 src/ || echo "Skipping errors for now..."
@@ -30,26 +30,26 @@ test:
 #   stage: Build
 #   image: node
 #   script:
-#     - cd mylife/
+#     - cd renti/
 #     - npm install -g
 #     - npm install -g expo-cli
 #     - npm run build-android
 #   artifacts:
 #     paths:
-#       - mylife/android-build/
+#       - renti/android-build/
 #     expire_in: 1 week
 
 # build-ios:
 #   stage: Build
 #   image: node
 #   script:
-#     - cd mylife/
+#     - cd renti/
 #     - npm install -g
 #     - npm install -g expo-cli
 #     - npm run build-ios
 #   artifacts:
 #     paths:
-#       - mylife/android-ios/
+#       - renti/android-ios/
 #     expire_in: 1 week
 
 docker:
