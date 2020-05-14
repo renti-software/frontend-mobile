@@ -15,9 +15,10 @@ export default function HomeScreen() {
       <SearchBar
         placeholder="Search item..."
         lightTheme
+        leftIconContainerStyle={{backgroundColor:colors.primary,width:40,borderRadius:5}}
+        
         containerStyle={{backgroundColor:'white',    borderRadius:5, marginTop:10 }}
         inputContainerStyle={{backgroundColor:'white'}}
-        onChangeText={() => handleHelpPress()}
       />
       {renderItems()}
     </ScrollView>
