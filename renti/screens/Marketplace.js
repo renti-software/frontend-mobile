@@ -29,6 +29,10 @@ export default class Marketplace extends React.Component {
     })
   }
 
+  makeSearchUpdate() {
+    alert(this.state.searchValue)
+  }
+
   renderItems() {
     return itemsList.map( item => {
       return(
@@ -63,7 +67,7 @@ export default class Marketplace extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <View style={{flexDirection:'row', maxHeight:verticalScale(30)}}>
+        <View style={{flexDirection:'row'}}>
           <SearchBar
             placeholder="Search item..."
             lightTheme
@@ -72,7 +76,7 @@ export default class Marketplace extends React.Component {
             onChangeText={(text) => this.updateSearch(text)}
             value={this.state.searchValue}
           />
-          <TouchableOpacity style={{backgroundColor:colors.primary,flex:0.8, borderRadius:5, marginTop:10, }}>
+          <TouchableOpacity style={{backgroundColor:colors.primary,flex:0.8, borderRadius:5, marginTop:10, }} onPress={() => this.makeSearchUpdate()}>
           </TouchableOpacity>
         </View>
         
