@@ -5,7 +5,9 @@ import style from '../constants/Style'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { SearchBar } from 'react-native-elements';
-import itemsList from '../data/ItemsData'
+import itemsList from '../data/ItemsData';
+import { Ionicons } from '@expo/vector-icons';
+import { moderateScale, verticalScale } from 'react-native-size-matters';
 
 
 export default class Marketplace extends React.Component {
@@ -14,11 +16,21 @@ export default class Marketplace extends React.Component {
   }
 
   state = { 
-
+    searchValue : ''
   }
 
   componentDidMount(){
 
+  }
+
+  updateSearch(newSearch) {
+    this.setState({
+      searchValue: newSearch
+    })
+  }
+
+  makeSearchUpdate() {
+    alert(this.state.searchValue)
   }
 
   renderItems() {
@@ -55,14 +67,21 @@ export default class Marketplace extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <SearchBar
-          placeholder="Search item..."
-          lightTheme
-          leftIconContainerStyle={{backgroundColor:colors.primary,width:40,borderRadius:5}}
-          
-          containerStyle={{backgroundColor:'white',    borderRadius:5, marginTop:10 }}
-          inputContainerStyle={{backgroundColor:'white'}}
-        />
+        <View style={{flexDirection:'row'}}>
+          <SearchBar
+            placeholder="Search item..."
+            lightTheme
+            searchIcon={<Ionicons size={26} color='white' name="md-menu" />}
+            inputContainerStyle={{backgroundColor:'white',borderBottomWidth:1,borderColor:colors.gray,borderWidth:1}}
+            containerStyle={{backgroundColor:'white', flex:3 , borderRadius:5, marginTop:10 ,borderBottomWidth:0,borderTopWidth:0}}
+            onChangeText={(text) => this.updateSearch(text)}
+            value={this.state.searchValue}
+          />
+          <TouchableOpacity style={{backgroundColor:colors.primary,flex:0.7 , borderRadius:5, marginTop:10, alignItems:'center', justifyContent:'center'}} onPress={() => this.makeSearchUpdate()}>
+            <Ionicons size={30} color="white" name="md-search" />
+          </TouchableOpacity>
+        </View>
+        
         {this.renderItems()}
       </ScrollView>
     );
@@ -73,7 +92,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.gray,
-    paddingHorizontal:10
+    paddingHorizontal:10,
+    marginTop: 30 //TODO change to android top window
   },
   items: {
     flex:1,
