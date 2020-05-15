@@ -7,6 +7,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { SearchBar } from 'react-native-elements';
 import itemsList from '../data/ItemsData';
 import { Ionicons } from '@expo/vector-icons';
+import { moderateScale, verticalScale } from 'react-native-size-matters';
 
 
 export default class Marketplace extends React.Component {
@@ -15,11 +16,17 @@ export default class Marketplace extends React.Component {
   }
 
   state = { 
-
+    searchValue : ''
   }
 
   componentDidMount(){
 
+  }
+
+  updateSearch(newSearch) {
+    this.setState({
+      searchValue: newSearch
+    })
   }
 
   renderItems() {
@@ -56,14 +63,19 @@ export default class Marketplace extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <SearchBar
-          placeholder="Search item..."
-          lightTheme
-          leftIconContainerStyle={{backgroundColor:colors.primary,width:40,borderRadius:5}}
-          searchIcon={<Ionicons size={26} color='white' name="md-menu" />}
-          containerStyle={{backgroundColor:'white',    borderRadius:5, marginTop:10 }}
-          inputContainerStyle={{backgroundColor:'white'}}
-        />
+        <View style={{flexDirection:'row', maxHeight:verticalScale(30)}}>
+          <SearchBar
+            placeholder="Search item..."
+            lightTheme
+            searchIcon={<Ionicons size={26} color='white' name="md-menu" />}
+            containerStyle={{backgroundColor:'white', flex:3 , borderRadius:5, marginTop:10 }}
+            onChangeText={(text) => this.updateSearch(text)}
+            value={this.state.searchValue}
+          />
+          <TouchableOpacity style={{backgroundColor:colors.primary,flex:0.8, borderRadius:5, marginTop:10, }}>
+          </TouchableOpacity>
+        </View>
+        
         {this.renderItems()}
       </ScrollView>
     );
