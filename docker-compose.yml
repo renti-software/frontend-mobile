@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  react-native:
+    build:
+      context: .
+    ports:
+      - "19000:19000"
+      - "19001:19001"
+      - "19002:19002"
+    depends_on:
+      - web-server
+  web-server:
+    image: registry.gitlab.com/renti-software/backend
+    ports:
+      - "8080:8080"
+    environment: 
+      - POSTGRES_USER=spring
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: 'spring'
+      POSTGRES_PASSWORD: '123'
