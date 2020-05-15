@@ -5,7 +5,8 @@ import style from '../constants/Style'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { SearchBar } from 'react-native-elements';
-import itemsList from '../data/ItemsData'
+import itemsList from '../data/ItemsData';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default class Marketplace extends React.Component {
@@ -59,7 +60,7 @@ export default class Marketplace extends React.Component {
           placeholder="Search item..."
           lightTheme
           leftIconContainerStyle={{backgroundColor:colors.primary,width:40,borderRadius:5}}
-          
+          searchIcon={<Ionicons size={26} color='white' name="md-menu" />}
           containerStyle={{backgroundColor:'white',    borderRadius:5, marginTop:10 }}
           inputContainerStyle={{backgroundColor:'white'}}
         />
@@ -73,7 +74,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.gray,
-    paddingHorizontal:10
+    paddingHorizontal:10,
+    marginTop: 20 //TODO change to android top window
   },
   items: {
     flex:1,
