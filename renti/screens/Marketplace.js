@@ -25,8 +25,24 @@ export default class Marketplace extends React.Component {
       max_price: 1000,
       min_price: 0,
       category: '',
-    }
+    },
+
+    //modal
+    open : false
+
   }
+
+  //hook like notations
+  modalDidOpen = () => console.log("Modal did open.");
+
+  modalDidClose = () => {
+    this.setState({ open: false });
+    console.log("Modal did close.");
+  };
+
+  openModal = () => this.setState({ open: true });
+
+  closeModal = () => this.setState({ open: false });
 
   componentDidMount(){
 
@@ -115,6 +131,30 @@ export default class Marketplace extends React.Component {
   render() {
     return (
     <View style={styles.container}>
+      <Modal
+          offset={this.state.offset}
+          open={this.state.open}
+          modalDidOpen={this.modalDidOpen}
+          modalDidClose={this.modalDidClose}
+          style={{ alignItems: "center" }}
+        >
+          <View style={{ alignItems: "center" }}>
+            <Text style={{ fontSize: 20, marginBottom: 10 }}>Hello world!</Text>
+            <TouchableOpacity style={{ margin: 5 }} onPress={this.moveUp}>
+              <Text>Move modal up</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ margin: 5 }}
+              onPress={this.resetPosition}
+            >
+              <Text>Reset modal position</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ margin: 5 }} onPress={this.closeModal}>
+              <Text>Close modal</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
       <ScrollView>
         <View style={{flexDirection:'row'}}>
           <SearchBar
@@ -155,8 +195,8 @@ const styles = StyleSheet.create({
   },
   fab : {
     backgroundColor: colors.primary,
-    width: moderateScale(70),
-    height: moderateScale(70),
+    width: moderateScale(65),
+    height: moderateScale(65),
     elevation:3,
     right:30,
     bottom:30,
