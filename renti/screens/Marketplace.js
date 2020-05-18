@@ -8,7 +8,7 @@ import FAB from "react-native-fab";
 import Modal from "react-native-simple-modal";
 import { SearchBar } from 'react-native-elements';
 import itemsList from '../data/ItemsData';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 
 
@@ -114,7 +114,8 @@ export default class Marketplace extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView>
         <View style={{flexDirection:'row'}}>
           <SearchBar
             placeholder="Search item..."
@@ -129,6 +130,18 @@ export default class Marketplace extends React.Component {
         
         {this.renderItems()}
       </ScrollView>
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => this.openModal()}
+        >
+          <AntDesign
+           name={'piechart'}
+           size={moderateScale(30)}
+           color="white"
+          >
+          </AntDesign>
+      </TouchableOpacity>
+    </View>
     );
   }
 }
@@ -139,6 +152,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light_gray,
     paddingHorizontal:10,
     marginTop: 30 //TODO change to android top window
+  },
+  fab : {
+    backgroundColor: colors.primary,
+    width: moderateScale(70),
+    height: moderateScale(70),
+    elevation:3,
+    right:30,
+    bottom:30,
+    position:'absolute',
+    alignItems:'center',
+    borderRadius: 40,
+    justifyContent:'center'
   },
   items: {
     flex:1,
