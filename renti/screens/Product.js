@@ -40,39 +40,40 @@ export default class Marketplace extends React.Component {
     alert(this.state.searchValue)
   }
 
-    //GET Request
-    getLogs() {
-      console.log(`${API_URL}/food-logs/${this.state.current_day}`);
-      fetch(`${API_URL}/food-logs/${this.state.current_day}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Token " + this.state.user_token
+  //GET Request
+  getLogs() {
+    console.log(`${API_URL}/food-logs/${this.state.current_day}`);
+    fetch(`${API_URL}/food-logs/${this.state.current_day}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Token " + this.state.user_token
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        if (json.state == "Error") {
+          alert(json.message);
+        } else {
+          // Success
+          this.setState({
+            data: json.message,
+            refresh: false,
+            loading: false
+          });
+
+          console.log("New state");
+          console.log(this.state.data);
         }
       })
-        .then(response => response.json())
-        .then(json => {
-          console.log(json);
-          if (json.state == "Error") {
-            alert(json.message);
-          } else {
-            // Success
-            this.setState({
-              data: json.message,
-              refresh: false,
-              loading: false
-            });
-  
-            console.log("New state");
-            console.log(this.state.data);
-          }
-        })
-        .catch(error => {
-          alert("Error adding Food Log.");
-          console.error(error);
-        });
-    }
+      .catch(error => {
+        alert("Error adding Food Log.");
+        console.error(error);
+      });
+  }
+
 
   renderItems() {
     return itemsList.map( item => {
@@ -112,21 +113,9 @@ export default class Marketplace extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <View style={{flexDirection:'row'}}>
-          <SearchBar
-            placeholder="Search item..."
-            lightTheme
-            searchIcon={<Ionicons size={26} color='white' name="md-menu" />}
-            inputContainerStyle={{backgroundColor:'white',borderColor:colors.gray,borderWidth:0}}
-            containerStyle={{backgroundColor:'white', flex:3 , borderRadius:5, marginTop:10 ,borderBottomWidth:0,borderTopWidth:0}}
-            onChangeText={(text) => this.updateSearch(text)}
-            value={this.state.searchValue}
-          />
-        </View>
-        
-        {this.renderItems()}
-      </ScrollView>
+      <View>
+
+      </View>
     );
   }
 }
