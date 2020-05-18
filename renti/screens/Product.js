@@ -14,6 +14,12 @@ export default class Product extends React.Component {
   }
 
   state = { 
+    id : "4",
+    name : "Fato Homem - M",
+    image : "https://www.youlikeitstore.com/wp-content/uploads/2019/08/8718475994657_a_en_hd_1.jpg",
+    location : "Lisboa, Portugal",
+    description: 'Estou a vender este fato porque tenho-o parado há muito tempo e já nao lhe dou uso. Está em ótimas condições e serve para todo o tipo de ocasiões.',
+    price : 18.00
   }
 
   componentDidMount(){
@@ -56,9 +62,28 @@ export default class Product extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.column_container}>
-            <Text>Ola</Text>
+      <View style={styles.column_container}>
+        <View style={styles.container}>
+            <View style={{flex:1, alignItems:'center',paddingHorizontal:40}}>
+                <Text style={{fontSize:style.h1, fontWeight:'700'}}>{this.state.name}</Text>
+                <Image
+                    style={{height:moderateScale(180),width:moderateScale(180),marginTop:10}}
+                    source={{uri: this.state.image}}
+                >
+                </Image>
+                <Text style={{fontSize:style.h3, fontWeight:'bold',color:colors.primary}}>{this.state.location}</Text>
+                <Text style={{fontSize:style.body, fontWeight:'700', textAlign:'justify',marginTop:10}}>{this.state.description}</Text>
+            
+                <Text style={{fontSize:style.h1, fontWeight:'bold',color:colors.primary,marginTop:25}}>{this.state.price}€ /day</Text>
+                <View style={{flexDirection:'row', marginTop:40}}>
+                    <TouchableOpacity style={{alignItems:'center', height:verticalScale(44), borderRadius:8 ,backgroundColor:colors.secondary, flex:1,marginRight:5}}>
+                        <Text style={{fontSize:style.h3, fontWeight:'700', textAlign:'justify',marginTop:10, color:'white'}}>Contact</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{alignItems:'center', height:verticalScale(44), borderRadius:8 ,backgroundColor:colors.primary,flex: 1,marginLeft:5}}>
+                        <Text style={{fontSize:style.h3, fontWeight:'700', textAlign:'justify',marginTop:10, color:'white'}}>Rent</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
       </View>
     );
@@ -69,14 +94,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingHorizontal:10,
-    marginTop: 30 //TODO change to android top windo
+    padding: 20,
+    marginTop: 50 //TODO change to android top windo
   },
   column_container: {
     flex: 1,
     flexDirection:'row',
     alignItems: 'center',
-    paddingHorizontal:10,
     marginTop: 30 //TODO change to android top windo
   },
   items: {
@@ -84,7 +108,6 @@ const styles = StyleSheet.create({
     borderRadius:10,
     flexDirection:'row',
     marginTop:10,
-    padding: 10,
     minHeight:130,
     backgroundColor:'#fff'
   }
