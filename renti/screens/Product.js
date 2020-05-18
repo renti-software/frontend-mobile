@@ -77,6 +77,7 @@ export default class Product extends React.Component {
                 <Text style={{fontSize:style.h1, fontWeight:'bold',color:colors.primary,marginTop:25}}>{this.state.price}€ /day</Text>
                 <View style={{flexDirection:'row', marginTop:40}}>
                     <TouchableOpacity style={{alignItems:'center', height:verticalScale(44), borderRadius:8 ,backgroundColor:colors.secondary, flex:1,marginRight:5}}>
+                        {/* Aqui ligar logo otelemovel com o nr que vem do user */}
                         <Text style={{fontSize:style.h3, fontWeight:'700', textAlign:'justify',marginTop:10, color:'white'}}>Contact</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{alignItems:'center', height:verticalScale(44), borderRadius:8 ,backgroundColor:colors.primary,flex: 1,marginLeft:5}}>

@@ -115,11 +115,6 @@ export default class Marketplace extends React.Component {
         });
     }
 
-    testingAlert(){
-      this.closeModal()
-      alert(`You chose: \nLocation: ${this.state.location}\ncategory: ${this.state.category}\nmin_price: ${this.state.min_price}\nmax_price: ${this.state.max_price}`)
-    }
-
   renderModal(){
     return(
       <View style={{ alignItems: "center", height:verticalScale(250) }}>
@@ -133,7 +128,7 @@ export default class Marketplace extends React.Component {
           <TextInput value={this.state.min_price} onChangeText={text => this.changeMinPrice(text)} style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Minimum €" placeholderTextColor={colors.gray}></TextInput>
           <TextInput value={this.state.max_price} onChangeText={text => this.changeMaxPrice(text)} style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Maximum €" placeholderTextColor={colors.gray}></TextInput>
         </View>
-        <TouchableOpacity onPress={() => this.testingAlert()} style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(35),width:moderateScale(125), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => this.closeModal()} style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(35),width:moderateScale(125), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
       </View>
     )
   }
