@@ -2,11 +2,13 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../constants/Colors'
 import style from '../constants/Style'
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import FAB from "react-native-fab";
+import Modal from "react-native-simple-modal";
 import { SearchBar } from 'react-native-elements';
 import itemsList from '../data/ItemsData';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 
 
@@ -18,13 +20,52 @@ export default class Marketplace extends React.Component {
   state = { 
     searchValue : '',
     //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
-    filters: {
       location: '',
       max_price: 1000,
       min_price: 0,
       category: '',
-    }
+    //modal
+    open : false
+
   }
+
+  //This is awful, but we cant pass state param as arg
+
+  changeLocation = (val) => {
+    this.setState({
+        location: val
+    })
+  }
+
+  changeMaxPrice = (val) => {
+    this.setState({
+        max_price: val
+    })
+  }
+
+  changeMinPrice = (val) => {
+    this.setState({
+        min_price: val
+    })
+  }
+
+  changeCategory = (val) => {
+    this.setState({
+        category: val
+    })
+  }
+
+  //hook like notations
+  modalDidOpen = () => console.log("Modal did open.");
+
+  modalDidClose = () => {
+    this.setState({ open: false });
+    console.log("Modal did close.");
+  };
+
+  openModal = () => this.setState({ open: true });
+
+  closeModal = () => this.setState({ open: false });
 
   componentDidMount(){
 
@@ -74,6 +115,29 @@ export default class Marketplace extends React.Component {
         });
     }
 
+    testingAlert(){
+      this.closeModal()
+      alert(`You chose: \nLocation: ${this.state.location}\ncategory: ${this.state.category}\nmin_price: ${this.state.min_price}\nmax_price: ${this.state.max_price}`)
+    }
+
+  renderModal(){
+    return(
+      <View style={{ alignItems: "center", height:verticalScale(250) }}>
+        <Text style={{ fontSize: style.h2, marginBottom: 10 }}>Filter your choices!</Text>
+
+        <TextInput value={this.state.location} onChangeText={text => this.changeLocation(text)} style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Location..." placeholderTextColor={colors.gray}></TextInput>
+        <TextInput value={this.state.category} onChangeText={text => this.changeCategory(text)} style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Category..." placeholderTextColor={colors.gray}></TextInput>
+
+        
+        <View style={{flexDirection:'row'}}>
+          <TextInput value={this.state.min_price} onChangeText={text => this.changeMinPrice(text)} style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Minimum €" placeholderTextColor={colors.gray}></TextInput>
+          <TextInput value={this.state.max_price} onChangeText={text => this.changeMaxPrice(text)} style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Maximum €" placeholderTextColor={colors.gray}></TextInput>
+        </View>
+        <TouchableOpacity onPress={() => this.testingAlert()} style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(35),width:moderateScale(125), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
+      </View>
+    )
+  }
+
   renderItems() {
     return itemsList.map( item => {
       //Fazer aqui um filtro pelo item.name
@@ -112,7 +176,8 @@ export default class Marketplace extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView>
         <View style={{flexDirection:'row'}}>
           <SearchBar
             placeholder="Search item..."
@@ -127,6 +192,27 @@ export default class Marketplace extends React.Component {
         
         {this.renderItems()}
       </ScrollView>
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={this.openModal}
+        >
+          <AntDesign
+           name={'piechart'}
+           size={moderateScale(30)}
+           color="white"
+          >
+          </AntDesign>
+      </TouchableOpacity>
+      <Modal
+          offset={this.state.offset}
+          open={this.state.open}
+          modalDidOpen={this.modalDidOpen}
+          modalDidClose={this.modalDidClose}
+          style={{ alignItems: "center" }}
+        >
+          {this.renderModal()}
+        </Modal>
+    </View>
     );
   }
 }
@@ -137,6 +223,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light_gray,
     paddingHorizontal:10,
     marginTop: 30 //TODO change to android top window
+  },
+  fab : {
+    backgroundColor: colors.primary,
+    width: moderateScale(65),
+    height: moderateScale(65),
+    elevation:3,
+    right:30,
+    bottom:30,
+    position:'absolute',
+    alignItems:'center',
+    borderRadius: 40,
+    justifyContent:'center'
   },
   items: {
     flex:1,
