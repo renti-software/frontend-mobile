@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../constants/Colors'
 import style from '../constants/Style'
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import FAB from "react-native-fab";
 import Modal from "react-native-simple-modal";
@@ -92,6 +92,24 @@ export default class Marketplace extends React.Component {
         });
     }
 
+  renderModal(){
+    return(
+      <View style={{ alignItems: "center", height:verticalScale(250) }}>
+        <Text style={{ fontSize: style.h2, marginBottom: 10 }}>Filter your choices!</Text>
+
+        <TextInput style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Location..." placeholderTextColor={colors.gray}></TextInput>
+        <TextInput style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Category..." placeholderTextColor={colors.gray}></TextInput>
+
+        
+        <View style={{flexDirection:'row'}}>
+          <TextInput style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Minimum €" placeholderTextColor={colors.gray}></TextInput>
+          <TextInput style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Maximum €" placeholderTextColor={colors.gray}></TextInput>
+        </View>
+        <TouchableOpacity style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(30),width:moderateScale(110), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
+      </View>
+    )
+  }
+
   renderItems() {
     return itemsList.map( item => {
       //Fazer aqui um filtro pelo item.name
@@ -164,9 +182,7 @@ export default class Marketplace extends React.Component {
           modalDidClose={this.modalDidClose}
           style={{ alignItems: "center" }}
         >
-          <View style={{ alignItems: "center" }}>
-            <Text style={{ fontSize: 20, marginBottom: 10 }}>Hello world!</Text>
-          </View>
+          {this.renderModal()}
         </Modal>
     </View>
     );
