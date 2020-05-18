@@ -75,7 +75,8 @@ export default class Marketplace extends React.Component {
             placeholder="Search item..."
             lightTheme
             searchIcon={<Ionicons size={26} color='white' name="md-menu" />}
-            containerStyle={{backgroundColor:'white', flex:3 , borderRadius:5, marginTop:10 }}
+            inputContainerStyle={{backgroundColor:'white',borderBottomWidth:1,borderColor:colors.gray,borderWidth:1}}
+            containerStyle={{backgroundColor:'white', flex:3 , borderRadius:5, marginTop:10 ,borderBottomWidth:0,borderTopWidth:0}}
             onChangeText={(text) => this.updateSearch(text)}
             value={this.state.searchValue}
           />
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.gray,
     paddingHorizontal:10,
-    marginTop: 20 //TODO change to android top window
+    marginTop: 30 //TODO change to android top window
   },
   items: {
     flex:1,
