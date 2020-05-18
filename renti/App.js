@@ -6,7 +6,7 @@ import Product from './screens/Product.js'
 
 export default function App() {
   return (
-    <Product></Product>
+    <Marketplace></Marketplace>
   );
 }
 

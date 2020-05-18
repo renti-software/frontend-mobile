@@ -4,6 +4,8 @@ import colors from '../constants/Colors'
 import style from '../constants/Style'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import FAB from "react-native-fab";
+import Modal from "react-native-simple-modal";
 import { SearchBar } from 'react-native-elements';
 import itemsList from '../data/ItemsData';
 import { Ionicons } from '@expo/vector-icons';
