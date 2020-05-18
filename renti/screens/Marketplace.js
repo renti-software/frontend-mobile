@@ -16,7 +16,14 @@ export default class Marketplace extends React.Component {
   }
 
   state = { 
-    searchValue : ''
+    searchValue : '',
+    //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
+    filters: {
+      location: '',
+      max_price: 1000,
+      min_price: 0,
+      category: '',
+    }
   }
 
   componentDidMount(){
@@ -33,11 +40,46 @@ export default class Marketplace extends React.Component {
     alert(this.state.searchValue)
   }
 
+    //GET Request
+    getLogs() {
+      console.log(`${API_URL}/food-logs/${this.state.current_day}`);
+      fetch(`${API_URL}/food-logs/${this.state.current_day}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Token " + this.state.user_token
+        }
+      })
+        .then(response => response.json())
+        .then(json => {
+          console.log(json);
+          if (json.state == "Error") {
+            alert(json.message);
+          } else {
+            // Success
+            this.setState({
+              data: json.message,
+              refresh: false,
+              loading: false
+            });
+  
+            console.log("New state");
+            console.log(this.state.data);
+          }
+        })
+        .catch(error => {
+          alert("Error adding Food Log.");
+          console.error(error);
+        });
+    }
+
   renderItems() {
     return itemsList.map( item => {
       //Fazer aqui um filtro pelo item.name
       if(item.name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
         return(
+        <TouchableOpacity onPress={() => alert(`Going to page ${item.name}`)}>
           <View style={styles.items}>
               <Image
                 style={{height:110,padding:20,width:110,borderRadius:5,flex:1}}
@@ -55,12 +97,13 @@ export default class Marketplace extends React.Component {
                 </View>
       
                 <View style={{flexDirection:'column',justifyContent:'flex-end',alignItems:'flex-start', marginLeft:20,paddingVertical:20}}>
-        <Text style={{color:colors.primary, fontWeight:'bold',fontSize:style.h2}}>{item.price}€ /day</Text>
+                  <Text style={{color:colors.primary, fontWeight:'bold',fontSize:style.h2}}>{item.price}€ /day</Text>
                 </View>
               
               </View>
       
             </View>
+          </TouchableOpacity>
         )
       }
     })
