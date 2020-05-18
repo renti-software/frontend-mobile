@@ -27,6 +27,13 @@ var itemsList = [
         "location" : "Lisboa, Portugal",
         "price" : "18.00"
     },
+    {
+        "id" : "4",
+        "name" : "Fato Homem - XL",
+        "image" : "https://www.youlikeitstore.com/wp-content/uploads/2019/08/8718475994657_a_en_hd_1.jpg",
+        "location" : "Lisboa, Portugal",
+        "price" : "19.30"
+    },
 ]
 
 module.exports = itemsList;
