@@ -131,30 +131,6 @@ export default class Marketplace extends React.Component {
   render() {
     return (
     <View style={styles.container}>
-      <Modal
-          offset={this.state.offset}
-          open={this.state.open}
-          modalDidOpen={this.modalDidOpen}
-          modalDidClose={this.modalDidClose}
-          style={{ alignItems: "center" }}
-        >
-          <View style={{ alignItems: "center" }}>
-            <Text style={{ fontSize: 20, marginBottom: 10 }}>Hello world!</Text>
-            <TouchableOpacity style={{ margin: 5 }} onPress={this.moveUp}>
-              <Text>Move modal up</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{ margin: 5 }}
-              onPress={this.resetPosition}
-            >
-              <Text>Reset modal position</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{ margin: 5 }} onPress={this.closeModal}>
-              <Text>Close modal</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
-
       <ScrollView>
         <View style={{flexDirection:'row'}}>
           <SearchBar
@@ -172,7 +148,7 @@ export default class Marketplace extends React.Component {
       </ScrollView>
       <TouchableOpacity
         style={styles.fab}
-        onPress={() => this.openModal()}
+        onPress={this.openModal}
         >
           <AntDesign
            name={'piechart'}
@@ -181,6 +157,17 @@ export default class Marketplace extends React.Component {
           >
           </AntDesign>
       </TouchableOpacity>
+      <Modal
+          offset={this.state.offset}
+          open={this.state.open}
+          modalDidOpen={this.modalDidOpen}
+          modalDidClose={this.modalDidClose}
+          style={{ alignItems: "center" }}
+        >
+          <View style={{ alignItems: "center" }}>
+            <Text style={{ fontSize: 20, marginBottom: 10 }}>Hello world!</Text>
+          </View>
+        </Modal>
     </View>
     );
   }
