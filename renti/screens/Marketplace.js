@@ -20,16 +20,39 @@ export default class Marketplace extends React.Component {
   state = { 
     searchValue : '',
     //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
-    filters: {
       location: '',
       max_price: 1000,
       min_price: 0,
       category: '',
-    },
-
     //modal
     open : false
 
+  }
+
+  //This is awful, but we cant pass state param as arg
+
+  changeLocation = (val) => {
+    this.setState({
+        location: val
+    })
+  }
+
+  changeMaxPrice = (val) => {
+    this.setState({
+        max_price: val
+    })
+  }
+
+  changeMinPrice = (val) => {
+    this.setState({
+        min_price: val
+    })
+  }
+
+  changeCategory = (val) => {
+    this.setState({
+        category: val
+    })
   }
 
   //hook like notations
@@ -92,20 +115,25 @@ export default class Marketplace extends React.Component {
         });
     }
 
+    testingAlert(){
+      this.closeModal()
+      alert(`You chose: \nLocation: ${this.state.location}\ncategory: ${this.state.category}\nmin_price: ${this.state.min_price}\nmax_price: ${this.state.max_price}`)
+    }
+
   renderModal(){
     return(
       <View style={{ alignItems: "center", height:verticalScale(250) }}>
         <Text style={{ fontSize: style.h2, marginBottom: 10 }}>Filter your choices!</Text>
 
-        <TextInput style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Location..." placeholderTextColor={colors.gray}></TextInput>
-        <TextInput style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Category..." placeholderTextColor={colors.gray}></TextInput>
+        <TextInput value={this.state.location} onChangeText={text => this.changeLocation(text)} style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Location..." placeholderTextColor={colors.gray}></TextInput>
+        <TextInput value={this.state.category} onChangeText={text => this.changeCategory(text)} style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Category..." placeholderTextColor={colors.gray}></TextInput>
 
         
         <View style={{flexDirection:'row'}}>
-          <TextInput style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Minimum €" placeholderTextColor={colors.gray}></TextInput>
-          <TextInput style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Maximum €" placeholderTextColor={colors.gray}></TextInput>
+          <TextInput value={this.state.min_price} onChangeText={text => this.changeMinPrice(text)} style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Minimum €" placeholderTextColor={colors.gray}></TextInput>
+          <TextInput value={this.state.max_price} onChangeText={text => this.changeMaxPrice(text)} style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Maximum €" placeholderTextColor={colors.gray}></TextInput>
         </View>
-        <TouchableOpacity style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(30),width:moderateScale(110), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => this.testingAlert()} style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(35),width:moderateScale(125), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
       </View>
     )
   }
