@@ -55,7 +55,7 @@ export default class Marketplace extends React.Component {
                 </View>
       
                 <View style={{flexDirection:'column',justifyContent:'flex-end',alignItems:'flex-start', marginLeft:20,paddingVertical:20}}>
-        <Text style={{color:colors.primary, fontWeight:'600',fontSize:style.h2}}>{item.price}€ /day</Text>
+        <Text style={{color:colors.primary, fontWeight:'bold',fontSize:style.h2}}>{item.price}€ /day</Text>
                 </View>
               
               </View>
@@ -75,7 +75,7 @@ export default class Marketplace extends React.Component {
             placeholder="Search item..."
             lightTheme
             searchIcon={<Ionicons size={26} color='white' name="md-menu" />}
-            inputContainerStyle={{backgroundColor:'white',borderBottomWidth:1,borderColor:colors.gray,borderWidth:1}}
+            inputContainerStyle={{backgroundColor:'white',borderColor:colors.gray,borderWidth:0}}
             containerStyle={{backgroundColor:'white', flex:3 , borderRadius:5, marginTop:10 ,borderBottomWidth:0,borderTopWidth:0}}
             onChangeText={(text) => this.updateSearch(text)}
             value={this.state.searchValue}
@@ -91,13 +91,13 @@ export default class Marketplace extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.gray,
+    backgroundColor: colors.light_gray,
     paddingHorizontal:10,
     marginTop: 30 //TODO change to android top window
   },
   items: {
     flex:1,
-    borderRadius:5,
+    borderRadius:10,
     flexDirection:'row',
     marginTop:10,
     padding: 10,

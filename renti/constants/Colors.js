@@ -7,6 +7,7 @@ export default {
   yellow: '#e9c46a',
   orange: '#f4a261',
   gray: '#4e4e4e',
+  light_gray: '#d3d3d3',
   tabIconDefault: '#ccc',
   tabIconSelected: tintColor,
   tabBar: '#fefefe',
