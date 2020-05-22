@@ -11,6 +11,7 @@ import itemsList from '../data/ItemsData';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 
+const API_URL = "http://192.168.160.62:8080"
 
 export default class Marketplace extends React.Component {
   constructor(props){
@@ -19,11 +20,12 @@ export default class Marketplace extends React.Component {
 
   state = { 
     searchValue : '',
+    data: [],
     //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
-      location: '',
-      max_price: 1000,
-      min_price: 0,
-      category: '',
+    location: '',
+    max_price: 1000,
+    min_price: 0,
+    category: '',
     //modal
     open : false
 
@@ -68,7 +70,7 @@ export default class Marketplace extends React.Component {
   closeModal = () => this.setState({ open: false });
 
   componentDidMount(){
-
+    this.getProducts()
   }
 
   updateSearch(newSearch) {
@@ -82,36 +84,35 @@ export default class Marketplace extends React.Component {
   }
 
     //GET Request
-    getLogs() {
-      console.log(`${API_URL}/food-logs/${this.state.current_day}`);
-      fetch(`${API_URL}/food-logs/${this.state.current_day}`, {
+  getProducts() {
+      console.log(`${API_URL}/products`);
+      fetch(`${API_URL}/products`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Token " + this.state.user_token
         }
       })
-        .then(response => response.json())
+        .then((response) => response.json())
         .then(json => {
-          console.log(json);
-          if (json.state == "Error") {
+          if (false) {
             alert(json.message);
           } else {
             // Success
+            let message = json
+            console.log("Stringified")
+            console.log(message)
+
+            // solution nº46
             this.setState({
-              data: json.message,
-              refresh: false,
-              loading: false
+              data: message,
             });
-  
-            console.log("New state");
-            console.log(this.state.data);
+
           }
         })
         .catch(error => {
-          alert("Error adding Food Log.");
-          console.error(error);
+          alert("Error fetching products.");
+          console.log(error);
         });
     }
 
@@ -134,29 +135,32 @@ export default class Marketplace extends React.Component {
   }
 
   renderItems() {
-    return itemsList.map( item => {
-      //Fazer aqui um filtro pelo item.name
-      if(item.name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
+    let items = this.state.data
+    console.log("Showing state")
+    console.log(items)
+    return items.map( ({name,location,price},index) => {
+      //Fazer aqui um filtro pelo name
+      if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
         return(
-        <TouchableOpacity onPress={() => alert(`Going to page ${item.name}`)}>
+        <TouchableOpacity onPress={() => alert(`Going to page ${name}`)}>
           <View style={styles.items}>
               <Image
                 style={{height:110,padding:20,width:110,borderRadius:5,flex:1}}
-                source={{uri: item.image}}
+                source={{uri: 'https://gitlab.com/uploads/-/system/group/avatar/7865598/icon.png?width=64'}}
               >
               </Image>
       
               <View style={{flexDirection:'column',flex:2}}>
                 <View style={{flexDirection:'row',justifyContent:'flex-start',alignContent:'center', marginLeft:20}}>
-                  <Text style={{fontSize:style.h3,fontWeight:'bold'}}>{item.name}</Text>
+                  <Text style={{fontSize:style.h3,fontWeight:'bold'}}>{name}</Text>
                 </View>
       
                 <View style={{flexDirection:'row',justifyContent:'flex-start',alignContent:'center', marginLeft:20}}>
-                  <Text style={{}}>{item.location}</Text>
+        <Text style={{}}>{location.cityName}, {location.country}</Text>
                 </View>
       
                 <View style={{flexDirection:'column',justifyContent:'flex-end',alignItems:'flex-start', marginLeft:20,paddingVertical:20}}>
-                  <Text style={{color:colors.primary, fontWeight:'bold',fontSize:style.h2}}>{item.price}€ /day</Text>
+                  <Text style={{color:colors.primary, fontWeight:'bold',fontSize:style.h2}}>{price}€ /day</Text>
                 </View>
               
               </View>
@@ -168,6 +172,7 @@ export default class Marketplace extends React.Component {
     })
     
   }
+
 
   render() {
     return (
