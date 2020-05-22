@@ -62,7 +62,6 @@ export default class Marketplace extends React.Component {
 
   modalDidClose = () => {
     this.setState({ open: false });
-    console.log("Modal did close.");
   };
 
   openModal = () => this.setState({ open: true });
@@ -100,8 +99,6 @@ export default class Marketplace extends React.Component {
           } else {
             // Success
             let message = json
-            console.log("Stringified")
-            console.log(message)
 
             // solution nº46
             this.setState({
@@ -136,8 +133,6 @@ export default class Marketplace extends React.Component {
 
   renderItems() {
     let items = this.state.data
-    console.log("Showing state")
-    console.log(items)
     return items.map( ({name,location,price},index) => {
       //Fazer aqui um filtro pelo name
       if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
