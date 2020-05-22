@@ -18,6 +18,7 @@ export default class Marketplace extends React.Component {
     super(props);
   }
 
+  
   state = { 
     searchValue : '',
     data: [],
