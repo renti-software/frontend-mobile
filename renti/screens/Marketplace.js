@@ -27,6 +27,8 @@ export default class Marketplace extends React.Component {
     max_price: 0,
     min_price: 0,
     category: '',
+    order: '',
+    orderParam:'',
     //modal
     open : false
 
@@ -55,6 +57,18 @@ export default class Marketplace extends React.Component {
   changeCategory = (val) => {
     this.setState({
         category: val
+    })
+  }
+
+  changeOrderParam = (val) => {
+    this.setState({
+        orderParam: val
+    })
+  }
+
+  changeOrderAsc = (val) => {
+    this.setState({
+      order : val
     })
   }
 
@@ -89,6 +103,8 @@ export default class Marketplace extends React.Component {
       let paramCategory = this.state.category
       let paramMaxPrice = this.state.max_price
       let paramMinPrice = this.state.min_price
+      let paramOrder = this.state.orderParam
+      let paramOrderAsc = this.state.order
 
       let base_link = `${API_URL}/products?`
       if (paramLocation!=''){
@@ -104,8 +120,23 @@ export default class Marketplace extends React.Component {
         base_link = base_link + `minPrice=0&`
       }
       if (paramMaxPrice!=''){
-        base_link = base_link + `maxPrice=${paramMaxPrice}`
+        base_link = base_link + `maxPrice=${paramMaxPrice}&`
       }
+
+      if (paramOrder!=''){
+        base_link = base_link + `orderParameter=${paramOrder}&`
+      }
+      else{
+        base_link = base_link + `orderParameter=name&`
+      }
+
+      if (paramOrderAsc!=''){
+        base_link = base_link + `order=${paramOrderAsc}`
+      }
+      else{
+        base_link = base_link + `order=asc`
+      }
+
       console.log(base_link)
       fetch(base_link, {
         method: "GET",
@@ -143,7 +174,7 @@ export default class Marketplace extends React.Component {
 
   renderModal(){
     return(
-      <View style={{ alignItems: "center", height:verticalScale(250) }}>
+      <View style={{ alignItems: "center", height:verticalScale(300) }}>
         <Text style={{ fontSize: style.h2, marginBottom: 10 }}>Filter your choices!</Text>
 
         <TextInput value={this.state.location} onChangeText={text => this.changeLocation(text)} style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Location..." placeholderTextColor={colors.gray}></TextInput>
@@ -153,6 +184,10 @@ export default class Marketplace extends React.Component {
         <View style={{flexDirection:'row'}}>
           <TextInput value={this.state.min_price} onChangeText={text => this.changeMinPrice(text)} style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Minimum €" placeholderTextColor={colors.gray}></TextInput>
           <TextInput value={this.state.max_price} onChangeText={text => this.changeMaxPrice(text)} style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Maximum €" placeholderTextColor={colors.gray}></TextInput>
+        </View>
+        <View style={{flexDirection:'row'}}>
+          <TextInput value={this.state.orderParam} onChangeText={text => this.changeOrderParam(text)} style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Order Param" placeholderTextColor={colors.gray}></TextInput>
+          <TextInput value={this.state.order} onChangeText={text => this.changeOrderAsc(text)} style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Asc/Desc" placeholderTextColor={colors.gray}></TextInput>
         </View>
         <TouchableOpacity onPress={() => this.handleModalClose()} style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(35),width:moderateScale(125), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
       </View>
