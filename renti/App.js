@@ -2,11 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Marketplace from './screens/Marketplace.js'
 import Product from './screens/Product.js'
+import Login from './screens/Login.js'
+
 
 
 export default function App() {
   return (
-    <Marketplace></Marketplace>
+    <Login></Login>
   );
 }
 
