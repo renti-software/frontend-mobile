@@ -24,7 +24,7 @@ export default class Marketplace extends React.Component {
     data: [],
     //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
     location: '',
-    max_price: 1000,
+    max_price: 0,
     min_price: 0,
     category: '',
     //modal
@@ -85,8 +85,29 @@ export default class Marketplace extends React.Component {
 
     //GET Request
   getProducts() {
-      console.log(`${API_URL}/products`);
-      fetch(`${API_URL}/products`, {
+      let paramLocation = this.state.location
+      let paramCategory = this.state.category
+      let paramMaxPrice = this.state.max_price
+      let paramMinPrice = this.state.min_price
+
+      let base_link = `${API_URL}/products?`
+      if (paramLocation!=''){
+        base_link = base_link + `location=${paramLocation}&`
+      }
+      if (paramCategory!=''){
+        base_link = base_link + `category=${paramCategory}&`
+      }
+      if (paramMinPrice!=''){
+        base_link = base_link + `minPrice=${paramMinPrice}&`
+      }
+      else{
+        base_link = base_link + `minPrice=0&`
+      }
+      if (paramMaxPrice!=''){
+        base_link = base_link + `maxPrice=${paramMaxPrice}`
+      }
+      console.log(base_link)
+      fetch(base_link, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -114,6 +135,12 @@ export default class Marketplace extends React.Component {
         });
     }
 
+    handleModalClose(){
+      this.closeModal()
+      console.log("Switch params")
+      this.getProducts()
+    }
+
   renderModal(){
     return(
       <View style={{ alignItems: "center", height:verticalScale(250) }}>
@@ -127,7 +154,7 @@ export default class Marketplace extends React.Component {
           <TextInput value={this.state.min_price} onChangeText={text => this.changeMinPrice(text)} style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Minimum €" placeholderTextColor={colors.gray}></TextInput>
           <TextInput value={this.state.max_price} onChangeText={text => this.changeMaxPrice(text)} style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Maximum €" placeholderTextColor={colors.gray}></TextInput>
         </View>
-        <TouchableOpacity onPress={() => this.closeModal()} style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(35),width:moderateScale(125), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => this.handleModalClose()} style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(35),width:moderateScale(125), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
       </View>
     )
   }
