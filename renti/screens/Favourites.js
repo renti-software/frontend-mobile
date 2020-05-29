@@ -23,65 +23,10 @@ export default class Marketplace extends React.Component {
     searchValue : '',
     data: [],
     //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
-    location: '',
-    max_price: 0,
-    min_price: 0,
-    category: '',
-    order: '',
-    orderParam:'',
     //modal
     open : false
 
   }
-
-  //This is awful, but we cant pass state param as arg
-
-  changeLocation = (val) => {
-    this.setState({
-        location: val
-    })
-  }
-
-  changeMaxPrice = (val) => {
-    this.setState({
-        max_price: val
-    })
-  }
-
-  changeMinPrice = (val) => {
-    this.setState({
-        min_price: val
-    })
-  }
-
-  changeCategory = (val) => {
-    this.setState({
-        category: val
-    })
-  }
-
-  changeOrderParam = (val) => {
-    this.setState({
-        orderParam: val
-    })
-  }
-
-  changeOrderAsc = (val) => {
-    this.setState({
-      order : val
-    })
-  }
-
-  //hook like notations
-  modalDidOpen = () => console.log("Modal did open.");
-
-  modalDidClose = () => {
-    this.setState({ open: false });
-  };
-
-  openModal = () => this.setState({ open: true });
-
-  closeModal = () => this.setState({ open: false });
 
   componentDidMount(){
     this.getFavourites()
@@ -92,11 +37,6 @@ export default class Marketplace extends React.Component {
       searchValue: newSearch
     })
   }
-
-  makeSearchUpdate() {
-    alert(this.state.searchValue)
-  }
-
     //GET Request
   getFavourites() {
       //Here only get the favourites of the user
