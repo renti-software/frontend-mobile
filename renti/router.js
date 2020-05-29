@@ -20,10 +20,8 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
-import AuthLoadingScreen from "./components/auth/AuthLoadingScreen";
 import colors from "./constants/Colors";
 import { Ionicons, Foundation, AntDesign } from "@expo/vector-icons";
-import Icon from "./components/Icon";
 
 const LoginStack = createStackNavigator(
   //SignedOut Stack
@@ -151,10 +149,9 @@ const AppNavigatorFinal = createSwitchNavigator(
     Auth: {
       screen: LoginStack
     },
-    AuthLoading: AuthLoadingScreen
   },
   {
-    initialRouteName: "AuthLoading",
+    initialRouteName: "Auth",
     navigationOptions : {
       tintColor : "white",
       headerTintStyle:"#ffffff"
