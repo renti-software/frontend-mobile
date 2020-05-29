@@ -84,7 +84,7 @@ export default class Marketplace extends React.Component {
   closeModal = () => this.setState({ open: false });
 
   componentDidMount(){
-    this.getProducts()
+    this.getFavourites()
   }
 
   updateSearch(newSearch) {
@@ -98,44 +98,9 @@ export default class Marketplace extends React.Component {
   }
 
     //GET Request
-  getProducts() {
-      let paramLocation = this.state.location
-      let paramCategory = this.state.category
-      let paramMaxPrice = this.state.max_price
-      let paramMinPrice = this.state.min_price
-      let paramOrder = this.state.orderParam
-      let paramOrderAsc = this.state.order
-
+  getFavourites() {
+      //Here only get the favourites of the user
       let base_link = `${API_URL}/products?`
-      if (paramLocation!=''){
-        base_link = base_link + `location=${paramLocation}&`
-      }
-      if (paramCategory!=''){
-        base_link = base_link + `category=${paramCategory}&`
-      }
-      if (paramMinPrice!=''){
-        base_link = base_link + `minPrice=${paramMinPrice}&`
-      }
-      else{
-        base_link = base_link + `minPrice=0&`
-      }
-      if (paramMaxPrice!=''){
-        base_link = base_link + `maxPrice=${paramMaxPrice}&`
-      }
-
-      if (paramOrder!=''){
-        base_link = base_link + `orderParameter=${paramOrder}&`
-      }
-      else{
-        base_link = base_link + `orderParameter=name&`
-      }
-
-      if (paramOrderAsc!=''){
-        base_link = base_link + `order=${paramOrderAsc}`
-      }
-      else{
-        base_link = base_link + `order=asc`
-      }
 
       console.log(base_link)
       fetch(base_link, {
@@ -169,7 +134,7 @@ export default class Marketplace extends React.Component {
     handleModalClose(){
       this.closeModal()
       console.log("Switch params")
-      this.getProducts()
+      this.getFavourites()
     }
 
   renderModal(){
@@ -250,26 +215,6 @@ export default class Marketplace extends React.Component {
         
         {this.renderItems()}
       </ScrollView>
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={this.openModal}
-        >
-          <AntDesign
-           name={'piechart'}
-           size={moderateScale(30)}
-           color="white"
-          >
-          </AntDesign>
-      </TouchableOpacity>
-      <Modal
-          offset={this.state.offset}
-          open={this.state.open}
-          modalDidOpen={this.modalDidOpen}
-          modalDidClose={this.modalDidClose}
-          style={{ alignItems: "center" }}
-        >
-          {this.renderModal()}
-        </Modal>
     </View>
     );
   }
