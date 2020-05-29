@@ -136,7 +136,7 @@ export default class Register extends React.Component {
       }).then((response) => response.json())
       .then((json) => {
             console.log(json);
-            if (false){
+            if (json.error){
             //Credentials incorrect
                 alert(json.message)
             }
