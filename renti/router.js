@@ -31,7 +31,7 @@ const LoginStack = createStackNavigator(
     Login: {
       screen: Login,
       navigationOptions: {
-        header: null
+        headerShown: false
       }
     },
     
@@ -41,7 +41,6 @@ const LoginStack = createStackNavigator(
         headerTintStyle:"#ffffff",
         headerStyle: {
           backgroundColor: colors.primary,
-          marginTop: Platform.OS === "android" ? 0 : 20
         },
         headerTitleStyle: {
           color: "white"
@@ -55,9 +54,6 @@ const LoginStack = createStackNavigator(
     defaultNavigationOptions: {
       //Header customization of the perticular Screen
       headerTintStyle:"#ffffff",
-      headerStyle: {
-        marginTop: Platform.OS === "android" ? 0 : 20
-      }
     }
   }
 );
@@ -70,7 +66,14 @@ const MarketplaceNavigator = createStackNavigator(
     Marketplace: {
       screen: Marketplace,
       navigationOptions: {
-        header: null
+        headerTintStyle:"#ffffff",
+        headerStyle: {
+          backgroundColor: colors.primary,
+        },
+        headerTitleStyle: {
+          color: "white"
+        },
+        title: "Register"
       }
     },
     
@@ -80,7 +83,6 @@ const MarketplaceNavigator = createStackNavigator(
         headerTintStyle:"#ffffff",
         headerStyle: {
           backgroundColor: colors.primary,
-          marginTop: Platform.OS === "android" ? 0 : 20
         },
         headerTitleStyle: {
           color: "white"
@@ -94,9 +96,26 @@ const MarketplaceNavigator = createStackNavigator(
     defaultNavigationOptions: {
       //Header customization of the perticular Screen
       headerTintStyle:"#ffffff",
-      headerStyle: {
-        marginTop: Platform.OS === "android" ? 0 : 20
-      }
+    }
+  }
+);
+
+
+const RentalsNavigator = createStackNavigator(
+  //SignedOut Stack
+  {
+    //Defination of Navigaton from home screen
+    
+    Marketplace: {
+      screen: Login
+    },
+
+  },
+  {
+    //For React Navigation 2.+ change defaultNavigationOptions->navigationOptions
+    defaultNavigationOptions: {
+      //Header customization of the perticular Screen
+      headerTintStyle:"#ffffff",
     }
   }
 );
@@ -115,7 +134,7 @@ const AppNavigator = createBottomTabNavigator(
       }
     },
 
-    MyRenti: {
+    Rentals: {
       screen: RentalsNavigator,
       navigationOptions: {
         tabBarLabel: "My Rentals",
@@ -145,13 +164,13 @@ const AppNavigatorFinal = createSwitchNavigator(
     App: {
       screen: AppNavigator
     },
-
+    
     Auth: {
       screen: LoginStack
     },
   },
   {
-    initialRouteName: "Auth",
+    initialRouteName: "App",
     navigationOptions : {
       tintColor : "white",
       headerTintStyle:"#ffffff"

@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.light_gray,
     paddingHorizontal:10,
-    marginTop: 30 //TODO change to android top window
+    marginTop: 20 //TODO change to android top window
   },
   fab : {
     backgroundColor: colors.primary,

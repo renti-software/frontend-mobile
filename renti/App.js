@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import Marketplace from './screens/Marketplace.js'
 
 import AppNavigatorFinal from "./router";
 import NavigationService from "./components/NavigationService";
