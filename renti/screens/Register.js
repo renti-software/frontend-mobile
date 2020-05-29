@@ -23,7 +23,7 @@ import {
 
 import { ScrollView } from 'react-native-gesture-handler';
 const { width, height } = Dimensions.get('screen');
-const API_URL = 'http://mednat.ieeta.pt:8442';
+const API_URL = 'http://192.168.160.62:8080';
 
 //import all the basic component we have used
 
@@ -37,19 +37,53 @@ export default class Register extends React.Component {
     name:'',
     location:'',
     password:'',
+    cities: []
   }
 
   componentDidMount(){
-    
+    this.fetchCities();
   }
 
-  _storeData = async (token) => {
+  fetchCities(){
+    let base_link = `${API_URL}/locations`
+    console.log(base_link)
+      fetch(base_link, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }
+      })
+        .then((response) => response.json())
+        .then(json => {
+          console.log(json)
+          if (json.error) {
+            alert("Failed fetching cities!");
+          } else {
+            // Success
+            let message = json
+
+            // solution nº46
+            this.setState({
+              cities: message,
+            });
+
+          }
+        })
+        .catch(error => {
+          alert("Error fetching cities.");
+          console.log(error);
+        });
+  }
+
+  _storeData = async (id, email) => {
     console.log("Storing id: " + id);
     try {
-      await AsyncStorage.setItem("email", this.state.email);
+      await AsyncStorage.setItem("email", email);
       await AsyncStorage.setItem("id",id)
       this.setState({
-        id: id
+        id: id,
+        email: email,
       })
     } catch (error) {
       console.log(error);
@@ -122,8 +156,8 @@ export default class Register extends React.Component {
             alert("Login Credentials are invalid.");
           } else {
             
-            //this._storeData(json.user.id);
-            //this.
+            this._storeData(json.user.id, json.user.email);
+            // navigate here
           }
         })
         .catch(error => {
