@@ -117,7 +117,7 @@ export default class Register extends React.Component {
         console.log("Fetching:" + `${API_URL}/users`)
         console.log(JSON.stringify({ //change these params later
             email:this.state.email,
-            name:this.state.first_name,
+            name:this.state.name,
             location: this.state.location,
             password:this.state.password, //this shouldnt go out as clear text
         }))
@@ -129,8 +129,8 @@ export default class Register extends React.Component {
         },
         body: JSON.stringify({ //change these params later
             email:this.state.email,
-            name:this.state.first_name,
-            location: this.state.location,
+            name:this.state.name,
+            location: { id :this.state.location},
             password:this.state.password, //this shouldnt go out as clear text
         }),
       }).then((response) => response.json())
@@ -141,7 +141,7 @@ export default class Register extends React.Component {
                 alert(json.message)
             }
             else { 
-                //this.makeLoginRequest();
+                this.makeLoginRequest();
             }
       })
       .catch((error) => {
@@ -182,6 +182,7 @@ export default class Register extends React.Component {
           } else {
             
             this._storeData(json.user.id, json.user.email);
+            alert(`Welcome to Renti, ${json.user.name}`)
             // navigate here
           }
         })
@@ -221,7 +222,7 @@ export default class Register extends React.Component {
                           }}
                           style={{backgroundColor: 'white'}}
                           dropDownStyle={{backgroundColor: '#fafafa'}}
-                          onChangeItem={item => this.changeLocation(item)}
+                          onChangeItem={item => this.changeLocation(item.value)}
                       />
 
                     {/* Intro */}
