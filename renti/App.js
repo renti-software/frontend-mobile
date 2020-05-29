@@ -7,7 +7,7 @@ import Register from './screens/Register.js'
 
 export default function App() {
   return (
-    <Login></Login>
+    <Marketplace></Marketplace>
   );
 }
 
