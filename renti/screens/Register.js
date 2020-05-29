@@ -74,20 +74,11 @@ export default class Register extends React.Component {
         console.log("Fetching:" + `${API_URL}/clients`)
         console.log(JSON.stringify({ //change these params later
             email:this.state.email,
-            first_name:this.state.first_name,
-            last_name:this.state.last_name,
+            name:this.state.first_name,
+            location: this.state.location,
             password:this.state.password, //this shouldnt go out as clear text
-            height :this.state.height,
-            sex: this.state.sex,
-            has_high_colesterol: this.state.colesterol,
-            is_diabetic: this.state.diabetic,
-            current_weight:this.state.current_weight,
-            weight_goal:this.state.weight_goal,
-            birth_date:this.state.birthday,
-            phone_number:this.state.phone_number,
-            photo:this.state.photo_base64,
         }))
-    fetch(`${API_URL}/clients`, {
+    fetch(`${API_URL}/users`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -95,28 +86,19 @@ export default class Register extends React.Component {
         },
         body: JSON.stringify({ //change these params later
             email:this.state.email,
-            first_name:this.state.first_name,
-            last_name:this.state.last_name,
+            name:this.state.first_name,
+            location: this.state.location,
             password:this.state.password, //this shouldnt go out as clear text
-            height :this.state.height,
-            sex: this.state.sex,
-            has_high_colesterol: this.state.colesterol,
-            is_diabetic: this.state.diabetic,
-            current_weight:this.state.current_weight,
-            weight_goal:this.state.weight_goal,
-            birth_date:this.state.birthday,
-            phone_number:this.state.phone_number,
-            photo:this.state.photo_base64,
         }),
       }).then((response) => response.json())
       .then((json) => {
             console.log(json);
-            if (json.state == "Error"){
+            if (false){
             //Credentials incorrect
                 alert(json.message)
             }
             else { 
-                this.makeLoginRequest();
+                //this.makeLoginRequest();
             }
       })
       .catch((error) => {
@@ -130,35 +112,34 @@ export default class Register extends React.Component {
   makeLoginRequest(){
     //unsecure way to send a post
   
-    console.log("Fetching:" + `${API_URL}/login`)
-    fetch(`${API_URL}/login`, {
-        method: 'POST',
+    console.log("Fetching:" + `${API_URL}/login`);
+      fetch(`${API_URL}/login`, {
+        method: "POST",
         headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+          Accept: "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
-        username: this.state.email,
-        password: this.state.password,
-        }),
-    })
-    .then((response) => response.json())
-    .then((json) => {
-        console.log(json);
-        if (json.detail != undefined){
+          email: this.state.email,
+          password: this.state.password
+        })
+      })
+        .then(response => response.json())
+        .then(json => {
+          console.log(json);
+          if (false) {
             //Credentials incorrect
-            alert("Login Credentials are invalid.")
-        }
-        else { 
-        this._storeData(json.token)
+            alert("Login Credentials are invalid.");
+          } else {
             
-        this.props.navigation.navigate('FitbitAuth')
-        }
-    })
-    .catch((error) => {
-        alert("Error fetching login")
-        console.error(error);
-    });
+            //this._storeData(json.user.id);
+            //this.
+          }
+        })
+        .catch(error => {
+          alert("Error fetching login");
+          console.error(error);
+        });
   
 }
 
