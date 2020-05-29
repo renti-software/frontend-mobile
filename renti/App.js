@@ -3,12 +3,19 @@ import { StyleSheet, Text, View } from 'react-native';
 import Marketplace from './screens/Marketplace.js'
 import Product from './screens/Product.js'
 import Login from './screens/Login.js'
+import Register from './screens/Register.js'
 
+import AppNavigatorFinal from "./router";
+import NavigationService from "./components/NavigationService";
 
 
 export default function App() {
   return (
-    <Login></Login>
+    <AppNavigatorFinal
+        ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+      />
   );
 }
 
