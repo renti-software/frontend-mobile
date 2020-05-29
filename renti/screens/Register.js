@@ -21,7 +21,6 @@ import {
     Dimensions,
 } from 'react-native';
 
-import * as ImagePicker from 'expo-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
 const { width, height } = Dimensions.get('screen');
 const API_URL = 'http://mednat.ieeta.pt:8442';
@@ -194,15 +193,9 @@ export default class Register extends React.Component {
   render() {  
     return (
         <KeyboardAvoidingView style={styles.container} enabled>
+            <Text style={{color:'white',fontSize:style.h1, marginBottom:verticalScale(30)}}>Create a new account!</Text>
 
-            <TouchableOpacity style={styles.photoButton} onPress={()=>{
-                      this.selectPicture()
-                      }
-                    }>
-                <Text style={styles.photoText}> Upload Photo</Text>
-            </TouchableOpacity>
-                
-            <ScrollView style={{width:'100%', maxHeight:verticalScale(250)}}>
+            <ScrollView style={{width:'100%', maxHeight:verticalScale(290)}}>
                 <View style={styles.containerScroll}>
 
                     {/* FN */}
@@ -340,7 +333,7 @@ const styles = StyleSheet.create({
     },
     photoButton:{
         width:"80%",
-        backgroundColor:colors.white,
+        backgroundColor:'white',
         borderRadius:5,
         height:45,
         alignItems:"center",
@@ -367,7 +360,7 @@ const styles = StyleSheet.create({
 
     inputView:{
         width:"80%",
-        backgroundColor:colors.white,
+        backgroundColor:'white',
         color:colors.primary,
         borderRadius:20,
         height:45,
@@ -382,7 +375,7 @@ const styles = StyleSheet.create({
     },
 
     forgot:{
-        color:colors.white,
+        color:'white',
         fontSize:14
     },
     
@@ -399,13 +392,13 @@ const styles = StyleSheet.create({
 
     register_title:{
         fontSize:style.h2,
-        color:colors.white,
+        color:'white',
         fontWeight:'bold'
     },
 
     logo_text:{
         fontSize:style.h1,
-        color:colors.white,
+        color:'white',
         fontWeight:'bold'
     }
 });
