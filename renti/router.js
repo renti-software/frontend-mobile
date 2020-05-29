@@ -2,19 +2,15 @@ import React from "react";
 import NavigationService from "./components/NavigationService";
 
 import {
-  StyleSheet,
-  Text,
-  View,
   Platform,
-  Button,
   TouchableOpacity
 } from "react-native";
 
 
-import Marketplace from './screens/Marketplace.js'
-import Product from './screens/Product.js'
-import Login from './screens/Login.js'
-import Register from './screens/Register.js'
+import Marketplace from './screens/Marketplace'
+import Product from './screens/Product'
+import Login from './screens/Login'
+import Register from './screens/Register'
 
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
@@ -40,86 +36,113 @@ const LoginStack = createStackNavigator(
       navigationOptions: {
         headerTintStyle:"#ffffff",
         headerStyle: {
-          backgroundColor: colors.primary,
+          backgroundColor: '#2a9d8f',
+          marginTop: Platform.OS === "android" ? 0 : 20
         },
         headerTitleStyle: {
           color: "white"
         },
         title: "Register"
       }
-    },
+    }
   },
   {
     //For React Navigation 2.+ change defaultNavigationOptions->navigationOptions
     defaultNavigationOptions: {
       //Header customization of the perticular Screen
       headerTintStyle:"#ffffff",
+      headerStyle: {
+        marginTop: Platform.OS === "android" ? 0 : 20
+      }
+    }
+  }
+);
+
+const RentalsNavigator = createStackNavigator(
+  //Signed In Stack
+  {
+    Login: {
+      screen: Login,
+      navigationOptions: {
+        headerShown: false
+      }
+    },
+    
+    Register: {
+      screen: Register,
+      navigationOptions: {
+        headerTintStyle:"#ffffff",
+        headerStyle: {
+          backgroundColor: '#2a9d8f',
+          marginTop: Platform.OS === "android" ? 0 : 20
+        },
+        headerTitleStyle: {
+          color: "white"
+        },
+        title: "Register"
+      }
+    }
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#2a9d8f',
+        marginTop: Platform.OS === "android" ? 0 : 20
+      },
+      headerTintStyle:"#ffffff",
+      headerTitleStyle: {
+        color: "white"
+      },
+      title: "My Rentals"
+    }),
+    tabBarOptions: {
+      activeTintColor: "#c73737",
+      inactiveTintColor: "gray"
     }
   }
 );
 
 const MarketplaceNavigator = createStackNavigator(
-  //SignedOut Stack
+  //Signed In Stack
   {
-    //Defination of Navigaton from home screen
-    
     Marketplace: {
-      screen: Marketplace,
+      screen: Login,
+      navigationOptions: {
+        headerShown: false
+      }
+    },
+    
+    Register: {
+      screen: Register,
       navigationOptions: {
         headerTintStyle:"#ffffff",
         headerStyle: {
-          backgroundColor: colors.primary,
+          backgroundColor: '#2a9d8f',
+          marginTop: Platform.OS === "android" ? 0 : 20
         },
         headerTitleStyle: {
           color: "white"
         },
         title: "Register"
       }
-    },
-    
-    Product: {
-      screen: Product,
-      navigationOptions: {
-        headerTintStyle:"#ffffff",
-        headerStyle: {
-          backgroundColor: colors.primary,
-        },
-        headerTitleStyle: {
-          color: "white"
-        },
-        title: "Register"
-      }
-    },
+    }
   },
   {
-    //For React Navigation 2.+ change defaultNavigationOptions->navigationOptions
-    defaultNavigationOptions: {
-      //Header customization of the perticular Screen
+    initialRouteName: "Marketplace",
+    defaultNavigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#2a9d8f',
+        tintColor: "#ffffff",
+        marginTop: Platform.OS === "android" ? 0 : 20
+      },
+      headerTitleStyle: {
+        color: "white"
+      },
       headerTintStyle:"#ffffff",
-    }
+      title: "Marketplace"
+    })
   }
 );
-
-
-const RentalsNavigator = createStackNavigator(
-  //SignedOut Stack
-  {
-    //Defination of Navigaton from home screen
-    
-    Marketplace: {
-      screen: Login
-    },
-
-  },
-  {
-    //For React Navigation 2.+ change defaultNavigationOptions->navigationOptions
-    defaultNavigationOptions: {
-      //Header customization of the perticular Screen
-      headerTintStyle:"#ffffff",
-    }
-  }
-);
-
 
 const AppNavigator = createBottomTabNavigator(
   //Signed In Stack
@@ -134,7 +157,7 @@ const AppNavigator = createBottomTabNavigator(
       }
     },
 
-    Rentals: {
+    Stats: {
       screen: RentalsNavigator,
       navigationOptions: {
         tabBarLabel: "My Rentals",
@@ -148,7 +171,7 @@ const AppNavigator = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({}),
     headerTintStyle:"#ffffff",
     tabBarOptions: {
-      activeTintColor: colors.primary,
+      activeTintColor: '#2a9d8f',
       inactiveTintColor: "gray",
     }
   }
@@ -164,13 +187,13 @@ const AppNavigatorFinal = createSwitchNavigator(
     App: {
       screen: AppNavigator
     },
-    
+
     Auth: {
       screen: LoginStack
     },
   },
   {
-    initialRouteName: "App",
+    initialRouteName: "Auth",
     navigationOptions : {
       tintColor : "white",
       headerTintStyle:"#ffffff"
