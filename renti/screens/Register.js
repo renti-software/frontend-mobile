@@ -4,6 +4,7 @@ import colors from '../constants/Colors';
 import style from '../constants/Style'
 import { scale,verticalScale, moderateScale } from 'react-native-size-matters';
 import { Icon, CheckBox } from 'react-native-elements'
+import DropDownPicker from 'react-native-dropdown-picker';
 
 //import react in our code.
 import {
@@ -172,8 +173,10 @@ export default class Register extends React.Component {
         <KeyboardAvoidingView style={styles.container} enabled>
             <Text style={{color:'white',fontSize:style.h1, marginBottom:verticalScale(30)}}>Create a new account!</Text>
 
-            <ScrollView style={{width:'100%', maxHeight:verticalScale(240)}}>
-                <View style={styles.containerScroll}>
+            <View style={{width:'100%', maxHeight:verticalScale(240)}}>
+                <View style={{backgroundColor: colors.primary,
+                              alignItems: 'center',
+                              justifyContent: 'center',}}>
 
                     {/* FN */}
                     <View style={styles.inputView} >
@@ -183,6 +186,22 @@ export default class Register extends React.Component {
                             placeholderTextColor="#003f5c"
                             onChangeText={text => this.setState({first_name:text})}/>
                     </View>
+
+                      <DropDownPicker
+                          items={[
+                              {label: 'Item 1', value: 'item1'},
+                              {label: 'Item 2', value: 'item2'},
+                          ]}
+                          defaultValue="item1"
+                          containerStyle={{height: 45, 
+                            width:"80%",
+                            borderRadius:20,
+                            marginBottom:20,
+                          }}
+                          style={{backgroundColor: 'white'}}
+                          dropDownStyle={{backgroundColor: '#fafafa'}}
+                          onChangeItem={item => console.log(item.label, item.value)}
+                      />
 
                     {/* Intro */}
                     <View style={styles.inputView} >
@@ -204,17 +223,10 @@ export default class Register extends React.Component {
                     </View>
 
                     {/* Intro */}
-                    <View style={styles.inputView} >
-                        <TextInput  
-                            style={styles.inputText}
-                            placeholder="Location" 
-                            placeholderTextColor="#003f5c"
-                            onChangeText={text => this.setState({email:text})}/>
-                    </View>
-                    
+                                       
 
                 </View>
-            </ScrollView>
+            </View>
  
             <TouchableOpacity onPress={() => this.makeRegisterRequest()} style={styles.loginBtn}>
                 <Text style={styles.loginText}>REGISTER</Text>
