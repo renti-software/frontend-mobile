@@ -38,7 +38,10 @@ export default class Register extends React.Component {
     name:'',
     location:'',
     password:'',
-    cities: []
+    cities: [
+      {label: 'Porto', value: '1'},
+      {label: 'Aveiro', value: '2'},
+    ]
   }
 
   componentDidMount(){
@@ -63,10 +66,25 @@ export default class Register extends React.Component {
           } else {
             // Success
             let message = json
+            let new_cities = []
+
+            for (let index = 0; index < message.length; index++) {
+              const city = message[index];
+
+              var dict = {
+                label : city.cityName,
+                value : city.id,
+              }
+
+              new_cities.push(dict)
+              
+            }
+
+            console.log(new_cities)
 
             // solution nº46
             this.setState({
-              cities: message,
+              cities: new_cities,
             });
 
           }
@@ -93,7 +111,7 @@ export default class Register extends React.Component {
 
   makeRegisterRequest(){
       //unsecure way to send a post
-    if (this.state.email=='' || this.state.name=='' || this.state.locaton=='' || this.state.password=='') {
+    if (this.state.email=='' || this.state.name=='' || this.state.location=='' || this.state.password=='') {
         alert("Fill in the required information!")
     } else {
         console.log("Fetching:" + `${API_URL}/users`)
@@ -132,6 +150,12 @@ export default class Register extends React.Component {
       });
     }
     
+  }
+
+  changeLocation(item){
+    this.setState({
+      location: item
+    })
   }
 
   makeLoginRequest(){
@@ -184,15 +208,12 @@ export default class Register extends React.Component {
                             style={styles.inputText}
                             placeholder="Name" 
                             placeholderTextColor="#003f5c"
-                            onChangeText={text => this.setState({first_name:text})}/>
+                            onChangeText={text => this.setState({name:text})}/>
                     </View>
 
                       <DropDownPicker
-                          items={[
-                              {label: 'Item 1', value: 'item1'},
-                              {label: 'Item 2', value: 'item2'},
-                          ]}
-                          defaultValue="item1"
+                          items={this.state.cities}
+                          defaultValue="1"
                           containerStyle={{height: 45, 
                             width:"80%",
                             borderRadius:20,
@@ -200,7 +221,7 @@ export default class Register extends React.Component {
                           }}
                           style={{backgroundColor: 'white'}}
                           dropDownStyle={{backgroundColor: '#fafafa'}}
-                          onChangeItem={item => console.log(item.label, item.value)}
+                          onChangeItem={item => this.changeLocation(item)}
                       />
 
                     {/* Intro */}
