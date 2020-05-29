@@ -4,6 +4,7 @@ import colors from '../constants/Colors';
 import style from '../constants/Style'
 import { scale,verticalScale, moderateScale } from 'react-native-size-matters';
 import { Icon, CheckBox } from 'react-native-elements'
+import DropDownPicker from 'react-native-dropdown-picker';
 
 //import react in our code.
 import {
@@ -23,7 +24,7 @@ import {
 
 import { ScrollView } from 'react-native-gesture-handler';
 const { width, height } = Dimensions.get('screen');
-const API_URL = 'http://mednat.ieeta.pt:8442';
+const API_URL = 'http://192.168.160.62:8080';
 
 //import all the basic component we have used
 
@@ -37,19 +38,71 @@ export default class Register extends React.Component {
     name:'',
     location:'',
     password:'',
+    cities: [
+      {label: 'Porto', value: '1'},
+      {label: 'Aveiro', value: '2'},
+    ]
   }
 
   componentDidMount(){
-    
+    this.fetchCities();
   }
 
-  _storeData = async (token) => {
+  fetchCities(){
+    let base_link = `${API_URL}/locations`
+    console.log(base_link)
+      fetch(base_link, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }
+      })
+        .then((response) => response.json())
+        .then(json => {
+          console.log(json)
+          if (json.error) {
+            alert("Failed fetching cities!");
+          } else {
+            // Success
+            let message = json
+            let new_cities = []
+
+            for (let index = 0; index < message.length; index++) {
+              const city = message[index];
+
+              var dict = {
+                label : city.cityName,
+                value : city.id,
+              }
+
+              new_cities.push(dict)
+              
+            }
+
+            console.log(new_cities)
+
+            // solution nº46
+            this.setState({
+              cities: new_cities,
+            });
+
+          }
+        })
+        .catch(error => {
+          alert("Error fetching cities.");
+          console.log(error);
+        });
+  }
+
+  _storeData = async (id, email) => {
     console.log("Storing id: " + id);
     try {
-      await AsyncStorage.setItem("email", this.state.email);
+      await AsyncStorage.setItem("email", email);
       await AsyncStorage.setItem("id",id)
       this.setState({
-        id: id
+        id: id,
+        email: email,
       })
     } catch (error) {
       console.log(error);
@@ -58,13 +111,13 @@ export default class Register extends React.Component {
 
   makeRegisterRequest(){
       //unsecure way to send a post
-    if (this.state.email=='' || this.state.name=='' || this.state.locaton=='' || this.state.password=='') {
+    if (this.state.email=='' || this.state.name=='' || this.state.location=='' || this.state.password=='') {
         alert("Fill in the required information!")
     } else {
         console.log("Fetching:" + `${API_URL}/users`)
         console.log(JSON.stringify({ //change these params later
             email:this.state.email,
-            name:this.state.first_name,
+            name:this.state.name,
             location: this.state.location,
             password:this.state.password, //this shouldnt go out as clear text
         }))
@@ -76,19 +129,19 @@ export default class Register extends React.Component {
         },
         body: JSON.stringify({ //change these params later
             email:this.state.email,
-            name:this.state.first_name,
-            location: this.state.location,
+            name:this.state.name,
+            location: { id :this.state.location},
             password:this.state.password, //this shouldnt go out as clear text
         }),
       }).then((response) => response.json())
       .then((json) => {
             console.log(json);
-            if (false){
+            if (json.error){
             //Credentials incorrect
                 alert(json.message)
             }
             else { 
-                //this.makeLoginRequest();
+                this.makeLoginRequest();
             }
       })
       .catch((error) => {
@@ -97,6 +150,12 @@ export default class Register extends React.Component {
       });
     }
     
+  }
+
+  changeLocation(item){
+    this.setState({
+      location: item
+    })
   }
 
   makeLoginRequest(){
@@ -122,8 +181,9 @@ export default class Register extends React.Component {
             alert("Login Credentials are invalid.");
           } else {
             
-            //this._storeData(json.user.id);
-            //this.
+            this._storeData(json.user.id, json.user.email);
+            alert(`Welcome to Renti, ${json.user.name}`)
+            // navigate here
           }
         })
         .catch(error => {
@@ -138,8 +198,10 @@ export default class Register extends React.Component {
         <KeyboardAvoidingView style={styles.container} enabled>
             <Text style={{color:'white',fontSize:style.h1, marginBottom:verticalScale(30)}}>Create a new account!</Text>
 
-            <ScrollView style={{width:'100%', maxHeight:verticalScale(240)}}>
-                <View style={styles.containerScroll}>
+            <View style={{width:'100%', maxHeight:verticalScale(240)}}>
+                <View style={{backgroundColor: colors.primary,
+                              alignItems: 'center',
+                              justifyContent: 'center',}}>
 
                     {/* FN */}
                     <View style={styles.inputView} >
@@ -147,8 +209,21 @@ export default class Register extends React.Component {
                             style={styles.inputText}
                             placeholder="Name" 
                             placeholderTextColor="#003f5c"
-                            onChangeText={text => this.setState({first_name:text})}/>
+                            onChangeText={text => this.setState({name:text})}/>
                     </View>
+
+                      <DropDownPicker
+                          items={this.state.cities}
+                          defaultValue="1"
+                          containerStyle={{height: 45, 
+                            width:"80%",
+                            borderRadius:20,
+                            marginBottom:20,
+                          }}
+                          style={{backgroundColor: 'white'}}
+                          dropDownStyle={{backgroundColor: '#fafafa'}}
+                          onChangeItem={item => this.changeLocation(item.value)}
+                      />
 
                     {/* Intro */}
                     <View style={styles.inputView} >
@@ -170,17 +245,10 @@ export default class Register extends React.Component {
                     </View>
 
                     {/* Intro */}
-                    <View style={styles.inputView} >
-                        <TextInput  
-                            style={styles.inputText}
-                            placeholder="Location" 
-                            placeholderTextColor="#003f5c"
-                            onChangeText={text => this.setState({email:text})}/>
-                    </View>
-                    
+                                       
 
                 </View>
-            </ScrollView>
+            </View>
  
             <TouchableOpacity onPress={() => this.makeRegisterRequest()} style={styles.loginBtn}>
                 <Text style={styles.loginText}>REGISTER</Text>
