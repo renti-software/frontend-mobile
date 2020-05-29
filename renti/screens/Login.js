@@ -4,6 +4,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import * as Permissions from 'expo-permissions'
 import {Notifications } from 'expo'
+import colors from '../constants/Colors'
+import style from '../constants/Style'
 
 
 //import react in our code.
@@ -171,6 +173,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor:colors.primary,
     paddingVertical: 20,
     justifyContent: "center"
   },
@@ -178,6 +181,7 @@ const styles = StyleSheet.create({
   inputView: {
     width: "80%",
     borderRadius: 20,
+    backgroundColor:'white',
     height: 45,
     marginBottom: 20,
     justifyContent: "center",
