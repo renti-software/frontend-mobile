@@ -34,19 +34,9 @@ export default class Register extends React.Component {
   }
   state = {
     email:'',
-    first_name:'',
-    last_name:'',
+    name:'',
+    location:'',
     password:'',
-    height :'',
-    current_weight:'',
-    diabetic: false,
-    colesterol: false,
-    weight_goal:'',
-    birthday:'Birthdate',
-    sex:'M',
-    phone_number:'',
-    photo:'https://www.healthredefine.com/wp-content/uploads/2018/02/person-placeholder.jpg',
-    photo_base64:''
   }
 
   componentDidMount(){
@@ -54,24 +44,24 @@ export default class Register extends React.Component {
   }
 
   _storeData = async (token) => {
-    console.log("Storing Token: "+token)
+    console.log("Storing id: " + id);
     try {
-        await AsyncStorage.setItem('token', token);
-        await AsyncStorage.setItem('email', this.state.email);
-
-        this.setState({user_token:token})
-  
+      await AsyncStorage.setItem("email", this.state.email);
+      await AsyncStorage.setItem("id",id)
+      this.setState({
+        id: id
+      })
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
 };
 
   makeRegisterRequest(){
       //unsecure way to send a post
-    if (this.state.email=='' || this.state.first_name=='' || this.state.last_name=='' || this.state.password=='' || this.state.height=='' || this.state.current_weight=='' || this.state.weight_goal=='' || this.state.birthday=='Birthday' || this.state.sex=='') {
+    if (this.state.email=='' || this.state.name=='' || this.state.locaton=='' || this.state.password=='') {
         alert("Fill in the required information!")
     } else {
-        console.log("Fetching:" + `${API_URL}/clients`)
+        console.log("Fetching:" + `${API_URL}/users`)
         console.log(JSON.stringify({ //change these params later
             email:this.state.email,
             name:this.state.first_name,
@@ -148,7 +138,7 @@ export default class Register extends React.Component {
         <KeyboardAvoidingView style={styles.container} enabled>
             <Text style={{color:'white',fontSize:style.h1, marginBottom:verticalScale(30)}}>Create a new account!</Text>
 
-            <ScrollView style={{width:'100%', maxHeight:verticalScale(290)}}>
+            <ScrollView style={{width:'100%', maxHeight:verticalScale(240)}}>
                 <View style={styles.containerScroll}>
 
                     {/* FN */}
