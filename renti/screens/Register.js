@@ -162,34 +162,6 @@ export default class Register extends React.Component {
   
 }
 
-
-    openDatepicker = async () => {
-        if (Platform.OS === 'android') { 
-          try {
-            const { action, year, month, day } = await DatePickerAndroid.open({
-              // Use `new Date()` for current date.
-              // May 25 2020. Month 0 is January.
-              date: new Date(),
-            });
-            if (action !== DatePickerAndroid.dismissedAction) {
-              this.setState({
-                birthday: year.toString() + '-' + (month+1).toString() + '-' + day.toString(),
-              })
-            }
-          } catch ({ code, message }) {
-            console.warn('Cannot open date picker', message);
-          }
-
-        }
-      }
-
-    async setSelectedGender(gender) {
-        console.log("New gender: " + gender)
-        await this.setState({
-            sex: gender
-        })
-    }
-
   render() {  
     return (
         <KeyboardAvoidingView style={styles.container} enabled>
@@ -202,18 +174,9 @@ export default class Register extends React.Component {
                     <View style={styles.inputView} >
                         <TextInput  
                             style={styles.inputText}
-                            placeholder="First Name" 
+                            placeholder="Name" 
                             placeholderTextColor="#003f5c"
                             onChangeText={text => this.setState({first_name:text})}/>
-                    </View>
-
-                    {/* LN */}
-                    <View style={styles.inputView} >
-                        <TextInput  
-                            style={styles.inputText}
-                            placeholder="Last Name" 
-                            placeholderTextColor="#003f5c"
-                            onChangeText={text => this.setState({last_name:text})}/>
                     </View>
 
                     {/* Intro */}
@@ -236,79 +199,13 @@ export default class Register extends React.Component {
                     </View>
 
                     {/* Intro */}
-                    <TouchableOpacity onPress={() => this.openDatepicker()} style={styles.inputView}>
-                        <Text style={styles.inputText}>{this.state.birthday}</Text>
-                    </TouchableOpacity>
-
-                    {/* Intro */}
-                    {/* Only working for portuguese numbers */}
                     <View style={styles.inputView} >
                         <TextInput  
                             style={styles.inputText}
-                            placeholder="Phone Number (optional)" 
+                            placeholder="Location" 
                             placeholderTextColor="#003f5c"
-                            keyboardType='numeric'
-                            onChangeText={(text)=> this.onChanged(text)}
-                            maxLength={9}/> 
+                            onChangeText={text => this.setState({email:text})}/>
                     </View>
-
-                    {/* Intro */}
-                        <Picker
-                            selectedValue={this.state.sex}
-                            style={styles.inputView}
-                            onValueChange={(itemValue,itemIndex) => this.setSelectedGender(itemValue)}
-                        >
-                            <Picker.Item label="Male" value="M" />
-                            <Picker.Item label="Female" value="F" />
-                        </Picker>
-
-                    {/* Intro */}
-                    <View style={styles.inputView} >
-                        <TextInput  
-                            style={styles.inputText}
-                            placeholder="Current Height (Ex: 183 (cm))" 
-                            placeholderTextColor="#003f5c"
-                            maxLength={3}
-                            keyboardType={'numeric'}
-                            onChangeText={text => this.setState({height:text})}/>
-                    </View>
-
-                    {/* Current Weight */}
-                    <View style={styles.inputView} >
-                        <TextInput  
-                            style={styles.inputText}
-                            placeholder="Current Weight (Ex: 75 (kg))" 
-                            placeholderTextColor="#003f5c"
-                            maxLength={3}
-                            keyboardType={'numeric'}
-                            onChangeText={text => this.setState({current_weight:text})}/>
-                    </View>
-
-                    {/* Intro */}
-                    <View style={styles.inputView} >
-                        <TextInput  
-                            style={styles.inputText}
-                            placeholder="Weight Goal (Ex: 70 (kg))" 
-                            placeholderTextColor="#003f5c"
-                            maxLength={3}
-                            keyboardType={'numeric'}
-                            onChangeText={text => this.setState({weight_goal:text})}/>
-                    </View>
-
-
-                    <CheckBox
-                            style={styles.inputView} 
-                            title='Are you diabetic?'
-                            checked={this.state.diabetic}
-                            onPress={() => this.setState({diabetic: !this.state.diabetic})}
-                            />
-                    
-                    <CheckBox
-                            style={styles.inputView} 
-                            title='Do you have high colesterol?'
-                            checked={this.state.colesterol}
-                            onPress={() => this.setState({colesterol: !this.state.colesterol})}
-                            />
                     
 
                 </View>

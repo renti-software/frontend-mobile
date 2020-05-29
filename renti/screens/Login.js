@@ -22,7 +22,7 @@ import {
 } from "react-native";
 const { width, height } = Dimensions.get("screen");
 //import all the basic component we have used
-const API_URL = "http://mednat.ieeta.pt:8442";
+const API_URL = "http://192.168.160.62:8080";
 
 export default class Login extends React.Component {
   //Detail Screen to show from any Open detail button
@@ -33,53 +33,29 @@ export default class Login extends React.Component {
   state = {
     email: "",
     password: "",
-    expo_token:""
+    id: "",
   };
 
   componentDidMount() {
   }
 
 
-  _storeData = async token => {
-    console.log("Storing Token: " + token);
+  _storeData = async id => {
+    console.log("Storing id: " + id);
     try {
-      await AsyncStorage.setItem("token", token);
       await AsyncStorage.setItem("email", this.state.email);
-      await AsyncStorage.setItem('expo_token', this.state.expo_token);
-      this.setState({ user_token: token });
+      await AsyncStorage.setItem("id",id)
+      this.setState({
+        id: id
+      })
     } catch (error) {
       console.log(error);
     }
   };
 
-  async insertToken(token) {
-    var login_info = "Token " + token;
-    fetch(`${API_URL}/expo-tokens`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: login_info
-
-      },
-      body: JSON.stringify({
-        expo_token: this.state.expo_token
-      })
-    })
-      .then(response => response.json())
-      .then(json => {
-        console.log(json);
-        this.props.navigation.navigate("Profile");
-      })
-      .catch(error => {
-        alert("Error fetching login");
-        console.error(error);
-      });
-  }
-
   async makeLoginRequest() {
     //unsecure way to send a post
-    if (this.state.email == "") {
+    if (this.state.email == "" || this.state.password) {
       alert("Fill in the login information");
     } else {
       console.log("Fetching:" + `${API_URL}/login`);
@@ -90,22 +66,20 @@ export default class Login extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          username: this.state.email,
+          email: this.state.email,
           password: this.state.password
         })
       })
         .then(response => response.json())
         .then(json => {
           console.log(json);
-          if (json.detail != undefined) {
+          if (false) {
             //Credentials incorrect
             alert("Login Credentials are invalid.");
           } else {
             
-            this._storeData(json.token);
-            this.insertToken(json.token);
-
-            
+            //this._storeData(json.user.id);
+            //this.
           }
         })
         .catch(error => {
