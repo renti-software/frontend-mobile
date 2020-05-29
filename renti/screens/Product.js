@@ -7,6 +7,7 @@ import itemsList from '../data/ItemsData';
 import { Ionicons } from '@expo/vector-icons';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 
+const API_URL = 'http://192.168.160.62:8080';
 
 export default class Product extends React.Component {
   constructor(props){
@@ -23,42 +24,38 @@ export default class Product extends React.Component {
   }
 
   componentDidMount(){
+    this.fetchProduct()
+  }
 
+  fetchProduct(){
+    let base_link = `${API_URL}/products/${this.state.id}`
+    console.log(base_link)
+      fetch(base_link, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }
+      })
+        .then((response) => response.json())
+        .then(json => {
+          console.log(json)
+          if (json.error) {
+            alert(json.message);
+          } else {
+            // Success
+            let message = json
+
+          }
+        })
+        .catch(error => {
+          alert("Error fetching cities.");
+          console.log(error);
+        });
   }
 
   //GET Request
-  getLogs() {
-    console.log(`${API_URL}/food-logs/${this.state.current_day}`);
-    fetch(`${API_URL}/food-logs/${this.state.current_day}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Token " + this.state.user_token
-      }
-    })
-      .then(response => response.json())
-      .then(json => {
-        console.log(json);
-        if (json.state == "Error") {
-          alert(json.message);
-        } else {
-          // Success
-          this.setState({
-            data: json.message,
-            refresh: false,
-            loading: false
-          });
 
-          console.log("New state");
-          console.log(this.state.data);
-        }
-      })
-      .catch(error => {
-        alert("Error adding Food Log.");
-        console.error(error);
-      });
-  }
 
   render() {
     return (
@@ -76,12 +73,12 @@ export default class Product extends React.Component {
             
                 <Text style={{fontSize:style.h1, fontWeight:'bold',color:colors.primary,marginTop:25}}>{this.state.price}€ /day</Text>
                 <View style={{flexDirection:'row', marginTop:40}}>
-                    <TouchableOpacity style={{alignItems:'center', height:verticalScale(44), borderRadius:8 ,backgroundColor:colors.secondary, flex:1,marginRight:5}}>
+                    <TouchableOpacity style={{alignItems:'center', height:verticalScale(44), borderRadius:8 ,backgroundColor:colors.orange, flex:1.3,marginRight:5}}>
                         {/* Aqui ligar logo otelemovel com o nr que vem do user */}
-                        <Text style={{fontSize:style.h3, fontWeight:'700', textAlign:'justify',marginTop:10, color:'white'}}>Contact</Text>
+                        <Text style={{fontSize:style.h3, fontWeight:'700', textAlign:'justify',marginTop:10, color:'white'}}>Add Favourite</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{alignItems:'center', height:verticalScale(44), borderRadius:8 ,backgroundColor:colors.primary,flex: 1,marginLeft:5}}>
-                        <Text style={{fontSize:style.h3, fontWeight:'700', textAlign:'justify',marginTop:10, color:'white'}}>Rent</Text>
+                    <TouchableOpacity style={{alignItems:'center', height:verticalScale(44), borderRadius:8 ,backgroundColor:colors.secondary,flex: 1,marginLeft:5}}>
+                        <Text style={{fontSize:style.h3, fontWeight:'700', textAlign:'justify',marginTop:10, color:'white'}}>Contact</Text>
                     </TouchableOpacity>
                 </View>
             </View>
