@@ -55,7 +55,7 @@ export default class Login extends React.Component {
 
   async makeLoginRequest() {
     //unsecure way to send a post
-    if (this.state.email == "" || this.state.password) {
+    if (this.state.email == "" || this.state.password == "") {
       alert("Fill in the login information");
     } else {
       console.log("Fetching:" + `${API_URL}/login`);
@@ -73,12 +73,15 @@ export default class Login extends React.Component {
         .then(response => response.json())
         .then(json => {
           console.log(json);
-          if (false) {
+          if (json.error) {
             //Credentials incorrect
             alert("Login Credentials are invalid.");
           } else {
             
-            //this._storeData(json.user.id);
+            this._storeData(json.user.id);
+            alert(`Welcome to Renti, ${json.user.name}`)
+            console.log("Stored id is", json.user.id)
+            //navigate to other page
             //this.
           }
         })
@@ -95,8 +98,8 @@ export default class Login extends React.Component {
         {/* Imagem e logo */}
         <Image
           style={{
-            width: moderateScale(100),
-            height: moderateScale(100),
+            width: moderateScale(120),
+            height: moderateScale(120),
             resizeMode: "contain"
           }}
           source={require("../assets/images/icon.png")}
