@@ -37,9 +37,7 @@ const LoginStack = createStackNavigator(
     //For React Navigation 2.+ change defaultNavigationOptions->navigationOptions
     defaultNavigationOptions: {
       //Header customization of the perticular Screen
-      headerTintStyle:"#ffffff",
       headerStyle: {
-        marginTop: Platform.OS === "android" ? 0 : 20
       }
     }
   }
@@ -51,15 +49,14 @@ const RentalsNavigator = createStackNavigator(
     Favourites: {
       screen: Favourites,
       navigationOptions: {
-        headerTintStyle:"#ffffff",
         headerStyle: {
           backgroundColor: '#2a9d8f',
-          marginTop: Platform.OS === "android" ? 0 : 20
+
         },
         headerTitleStyle: {
           color: "white"
         },
-        title: "Register"
+        title: "My Favourites"
       }
     },
 
@@ -68,13 +65,11 @@ const RentalsNavigator = createStackNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: '#2a9d8f',
-        marginTop: Platform.OS === "android" ? 0 : 20
       },
-      headerTintStyle:"#ffffff",
       headerTitleStyle: {
         color: "white"
       },
-      title: "My Rentals"
+      title: "My Favourites"
     }),
     tabBarOptions: {
       activeTintColor: "#c73737",
@@ -89,30 +84,28 @@ const MarketplaceNavigator = createStackNavigator(
     Marketplace: {
       screen: Marketplace,
       navigationOptions: {
-        headerTintStyle:"#ffffff",
         headerStyle: {
           backgroundColor: '#2a9d8f',
-          marginTop: Platform.OS === "android" ? 0 : 20
+
         },
         headerTitleStyle: {
           color: "white"
         },
-        title: "Register"
+        title: "Marketplace"
       }
     },
 
     Product: {
       screen: Product,
       navigationOptions: {
-        headerTintStyle:"#ffffff",
         headerStyle: {
           backgroundColor: '#2a9d8f',
-          marginTop: Platform.OS === "android" ? 0 : 20
+
         },
         headerTitleStyle: {
           color: "white"
         },
-        title: "Register"
+        title: "Product"
       }
     },
     
@@ -122,13 +115,10 @@ const MarketplaceNavigator = createStackNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: '#2a9d8f',
-        tintColor: "#ffffff",
-        marginTop: Platform.OS === "android" ? 0 : 20
       },
       headerTitleStyle: {
         color: "white"
       },
-      headerTintStyle:"#ffffff",
       title: "Marketplace"
     })
   }
@@ -159,7 +149,6 @@ const AppNavigator = createBottomTabNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({}),
-    headerTintStyle:"#ffffff",
     tabBarOptions: {
       activeTintColor: '#2a9d8f',
       inactiveTintColor: "gray",
