@@ -37,6 +37,7 @@ export default class Login extends React.Component {
   };
 
   componentDidMount() {
+    console.log("done")
   }
 
 
@@ -137,7 +138,7 @@ export default class Login extends React.Component {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("Register")}
+          onPress={() => console.log("hello")}
         >
           <Text style={styles.loginText}>Signup</Text>
         </TouchableOpacity>
