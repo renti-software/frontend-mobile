@@ -9,6 +9,7 @@ import {
 
 import Marketplace from './screens/Marketplace'
 import Product from './screens/Product'
+import Favourites from './screens/Favourites'
 import Login from './screens/Login'
 import Register from './screens/Register'
 
@@ -27,24 +28,10 @@ const LoginStack = createStackNavigator(
     Login: {
       screen: Login,
       navigationOptions: {
-        headerShown: false
-      }
+        headerShown:false
+      },
     },
     
-    Register: {
-      screen: Register,
-      navigationOptions: {
-        headerTintStyle:"#ffffff",
-        headerStyle: {
-          backgroundColor: '#2a9d8f',
-          marginTop: Platform.OS === "android" ? 0 : 20
-        },
-        headerTitleStyle: {
-          color: "white"
-        },
-        title: "Register"
-      }
-    }
   },
   {
     //For React Navigation 2.+ change defaultNavigationOptions->navigationOptions
@@ -61,15 +48,8 @@ const LoginStack = createStackNavigator(
 const RentalsNavigator = createStackNavigator(
   //Signed In Stack
   {
-    Login: {
-      screen: Login,
-      navigationOptions: {
-        headerShown: false
-      }
-    },
-    
-    Register: {
-      screen: Register,
+    Favourites: {
+      screen: Favourites,
       navigationOptions: {
         headerTintStyle:"#ffffff",
         headerStyle: {
@@ -81,7 +61,8 @@ const RentalsNavigator = createStackNavigator(
         },
         title: "Register"
       }
-    }
+    },
+
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -106,14 +87,7 @@ const MarketplaceNavigator = createStackNavigator(
   //Signed In Stack
   {
     Marketplace: {
-      screen: Login,
-      navigationOptions: {
-        headerShown: false
-      }
-    },
-    
-    Register: {
-      screen: Register,
+      screen: Marketplace,
       navigationOptions: {
         headerTintStyle:"#ffffff",
         headerStyle: {
@@ -125,7 +99,23 @@ const MarketplaceNavigator = createStackNavigator(
         },
         title: "Register"
       }
-    }
+    },
+
+    Product: {
+      screen: Product,
+      navigationOptions: {
+        headerTintStyle:"#ffffff",
+        headerStyle: {
+          backgroundColor: '#2a9d8f',
+          marginTop: Platform.OS === "android" ? 0 : 20
+        },
+        headerTitleStyle: {
+          color: "white"
+        },
+        title: "Register"
+      }
+    },
+    
   },
   {
     initialRouteName: "Marketplace",
@@ -160,7 +150,7 @@ const AppNavigator = createBottomTabNavigator(
     Stats: {
       screen: RentalsNavigator,
       navigationOptions: {
-        tabBarLabel: "My Rentals",
+        tabBarLabel: "Favourites",
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="md-stats" color={tintColor} size={25} />
         )
@@ -193,7 +183,7 @@ const AppNavigatorFinal = createSwitchNavigator(
     },
   },
   {
-    initialRouteName: "Auth",
+    initialRouteName: "App",
     navigationOptions : {
       tintColor : "white",
       headerTintStyle:"#ffffff"

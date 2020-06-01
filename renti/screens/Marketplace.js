@@ -24,8 +24,8 @@ export default class Marketplace extends React.Component {
     data: [],
     //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
     location: '',
-    max_price: 0,
-    min_price: 0,
+    max_price: '0',
+    min_price: '0',
     category: '',
     order: '',
     orderParam:'',
@@ -280,7 +280,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.light_gray,
     paddingHorizontal:10,
-    marginTop: 20 //TODO change to android top window
   },
   fab : {
     backgroundColor: colors.primary,
