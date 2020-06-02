@@ -37,6 +37,7 @@ export default class Login extends React.Component {
   };
 
   componentDidMount() {
+    console.log("done")
   }
 
 
@@ -81,6 +82,7 @@ export default class Login extends React.Component {
             this._storeData(json.user.id);
             alert(`Welcome to Renti, ${json.user.name}`)
             console.log("Stored id is", json.user.id)
+            this.props.navigation.navigate("Marketplace")
             //navigate to other page
             //this.
           }

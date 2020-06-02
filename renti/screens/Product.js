@@ -15,15 +15,26 @@ export default class Product extends React.Component {
   }
 
   state = { 
-    id : "4",
-    name : "Fato Homem - M",
-    image : "https://www.youlikeitstore.com/wp-content/uploads/2019/08/8718475994657_a_en_hd_1.jpg",
-    location : "Lisboa, Portugal",
-    description: 'Estou a vender este fato porque tenho-o parado há muito tempo e já nao lhe dou uso. Está em ótimas condições e serve para todo o tipo de ocasiões.',
-    price : 18.00
+    product: {
+      id : 0,
+    }
   }
 
   componentDidMount(){
+    this.updateItem()
+  }
+
+  componentWillReceiveProps(){
+    this.updateItem()
+  }
+
+  async updateItem(){
+    console.log("Prouct id is: ",this.props.navigation.state.id)
+    await this.setState({
+      product: {
+        id : this.props.navigation.state.id
+      }
+    })
     this.fetchProduct()
   }
 

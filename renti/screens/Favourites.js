@@ -3,9 +3,6 @@ import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react
 import colors from '../constants/Colors'
 import style from '../constants/Style'
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import FAB from "react-native-fab";
-import Modal from "react-native-simple-modal";
 import { SearchBar } from 'react-native-elements';
 import itemsList from '../data/ItemsData';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
@@ -101,11 +98,14 @@ export default class Marketplace extends React.Component {
 
   renderItems() {
     let items = this.state.data
-    return items.map( ({name,location,price},index) => {
+    console.log(items)
+    return items.map( ({id,name,location,price},index) => {
       //Fazer aqui um filtro pelo name
-      if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
+      if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){ //check why this isnt working
         return(
-        <TouchableOpacity onPress={() => alert(`Going to page ${name}`)}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Product',{
+            id: id
+          }) }>
           <View style={styles.items}>
               <Image
                 style={{height:110,padding:20,width:110,borderRadius:5,flex:1}}
@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.light_gray,
     paddingHorizontal:10,
-    marginTop: 30 //TODO change to android top window
   },
   fab : {
     backgroundColor: colors.primary,

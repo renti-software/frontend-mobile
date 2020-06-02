@@ -24,8 +24,8 @@ export default class Marketplace extends React.Component {
     data: [],
     //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
     location: '',
-    max_price: 0,
-    min_price: 0,
+    max_price: '0',
+    min_price: '0',
     category: '',
     order: '',
     orderParam:'',
@@ -196,11 +196,13 @@ export default class Marketplace extends React.Component {
 
   renderItems() {
     let items = this.state.data
-    return items.map( ({name,location,price},index) => {
+    return items.map( ({id,name,location,price},index) => {
       //Fazer aqui um filtro pelo name
       if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
         return(
-        <TouchableOpacity onPress={() => alert(`Going to page ${name}`)}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("Marketplace", {
+          id: id
+        }) }>
           <View style={styles.items}>
               <Image
                 style={{height:110,padding:20,width:110,borderRadius:5,flex:1}}
@@ -280,7 +282,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.light_gray,
     paddingHorizontal:10,
-    marginTop: 30 //TODO change to android top window
   },
   fab : {
     backgroundColor: colors.primary,

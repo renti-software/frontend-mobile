@@ -1,14 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
 import Marketplace from './screens/Marketplace.js'
-import Product from './screens/Product.js'
-import Favourites from './screens/Favourites.js'
-import Login from './screens/Login.js'
-import Register from './screens/Register.js'
+
+import AppNavigatorFinal from "./router";
+import NavigationService from "./components/NavigationService";
+
 
 export default function App() {
   return (
-    <Favourites></Favourites>
+    <AppNavigatorFinal
+        ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+      />
   );
 }
 
