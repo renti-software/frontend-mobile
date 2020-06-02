@@ -82,6 +82,7 @@ export default class Login extends React.Component {
             this._storeData(json.user.id);
             alert(`Welcome to Renti, ${json.user.name}`)
             console.log("Stored id is", json.user.id)
+            this.props.navigation.navigate("Marketplace")
             //navigate to other page
             //this.
           }
@@ -138,7 +139,7 @@ export default class Login extends React.Component {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => console.log("hello")}
+          onPress={() => this.props.navigation.navigate("Register")}
         >
           <Text style={styles.loginText}>Signup</Text>
         </TouchableOpacity>

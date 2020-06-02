@@ -98,11 +98,14 @@ export default class Marketplace extends React.Component {
 
   renderItems() {
     let items = this.state.data
-    return items.map( ({name,location,price},index) => {
+    console.log(items)
+    return items.map( ({id,name,location,price},index) => {
       //Fazer aqui um filtro pelo name
-      if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
+      if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){ //check why this isnt working
         return(
-        <TouchableOpacity onPress={() => alert(`Going to page ${name}`)}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Product',{
+            id: id
+          }) }>
           <View style={styles.items}>
               <Image
                 style={{height:110,padding:20,width:110,borderRadius:5,flex:1}}

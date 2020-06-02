@@ -31,6 +31,13 @@ const LoginStack = createStackNavigator(
         headerShown:false
       },
     },
+
+    Register: {
+      screen: Register,
+      navigationOptions: {
+        headerShown:false
+      },
+    },
     
   },
   {

@@ -183,6 +183,7 @@ export default class Register extends React.Component {
             
             this._storeData(json.user.id, json.user.email);
             alert(`Welcome to Renti, ${json.user.name}`)
+            this.props.navigation.navigate("Marketplace")
             // navigate here
           }
         })
