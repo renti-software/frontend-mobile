@@ -26,9 +26,9 @@ export default class Marketplace extends React.Component {
 
   }
 
-  _retriveData = async=> {
+  _retriveData = async id => {
     try {
-      await AsyncStorage.getItem("id")
+      let id = AsyncStorage.getItem("id")
       this.setState({
         user_id: id
       })
