@@ -139,7 +139,7 @@ const AppNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: "Marketplace",
         tabBarIcon: ({ tintColor }) => (
-          <Foundation name="book" color={tintColor} size={25} />
+          <Ionicons name="md-pricetags" color={tintColor} size={25} />
         )
       }
     },
@@ -149,7 +149,7 @@ const AppNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: "Favourites",
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="md-stats" color={tintColor} size={25} />
+          <Ionicons name="md-star" color={tintColor} size={25} />
         )
       }
     }
@@ -179,7 +179,7 @@ const AppNavigatorFinal = createSwitchNavigator(
     },
   },
   {
-    initialRouteName: "Auth",
+    initialRouteName: "App",
     navigationOptions : {
       tintColor : "white",
       headerTintStyle:"#ffffff"

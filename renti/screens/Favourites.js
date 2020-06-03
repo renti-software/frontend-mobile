@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, AsyncStorage, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../constants/Colors'
 import style from '../constants/Style'
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
@@ -26,9 +26,9 @@ export default class Marketplace extends React.Component {
 
   }
 
-  _retriveData = async=> {
+  _retriveData = async id => {
     try {
-      await AsyncStorage.getItem("id")
+      let id = AsyncStorage.getItem("id")
       this.setState({
         user_id: id
       })
@@ -118,56 +118,44 @@ export default class Marketplace extends React.Component {
       this.getFavourites()
     }
 
-  renderModal(){
-    return(
-      <View style={{ alignItems: "center", height:verticalScale(300) }}>
-        <Text style={{ fontSize: style.h2, marginBottom: 10 }}>Filter your choices!</Text>
-
-        <TextInput value={this.state.location} onChangeText={text => this.changeLocation(text)} style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Location..." placeholderTextColor={colors.gray}></TextInput>
-        <TextInput value={this.state.category} onChangeText={text => this.changeCategory(text)} style={{marginTop:10, height:verticalScale(40), width:moderateScale(250), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Category..." placeholderTextColor={colors.gray}></TextInput>
-
-        
-        <View style={{flexDirection:'row'}}>
-          <TextInput value={this.state.min_price} onChangeText={text => this.changeMinPrice(text)} style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Minimum €" placeholderTextColor={colors.gray}></TextInput>
-          <TextInput value={this.state.max_price} onChangeText={text => this.changeMaxPrice(text)} style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Maximum €" placeholderTextColor={colors.gray}></TextInput>
-        </View>
-        <View style={{flexDirection:'row'}}>
-          <TextInput value={this.state.orderParam} onChangeText={text => this.changeOrderParam(text)} style={{marginTop:10, marginRight:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Order Param" placeholderTextColor={colors.gray}></TextInput>
-          <TextInput value={this.state.order} onChangeText={text => this.changeOrderAsc(text)} style={{marginTop:10, marginLeft:5, height:verticalScale(40), width:moderateScale(120), backgroundColor:colors.light_gray, padding:10, fontSize:style.header}} placeholder="Asc/Desc" placeholderTextColor={colors.gray}></TextInput>
-        </View>
-        <TouchableOpacity onPress={() => this.handleModalClose()} style={{flexDirection:'row', justifyContent:'flex-end', marginTop:20, backgroundColor:colors.primary, borderRadius:8, height:verticalScale(35),width:moderateScale(125), alignItems:'center', justifyContent:'center'}}><Text style={{color:'white', fontSize:style.h3}}>Confirm</Text></TouchableOpacity>
-      </View>
-    )
+  async handleFav(id_r,nav){
+    await AsyncStorage.setItem('prod_id',id_r)
+    nav.navigate('Product',{
+      id: product.id
+    }) 
   }
 
   renderItems() {
     let items = this.state.data
     console.log(items)
-    return items.map( ({id,name,location,price},index) => {
+    return items.map( ({id,product},index) => {
       //Fazer aqui um filtro pelo name
-      if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){ //check why this isnt working
+      let image = product.imageLink;
+              if (image==null || image=="") {
+                image = 'https://www.geographicexperiences.com/wp-content/uploads/revslider/home5/placeholder-1200x500.png'
+              };
+
+      if(product.name.toLowerCase().includes(this.state.searchValue.toLowerCase())){ //check why this isnt working
         return(
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Product',{
-            id: id
-          }) }>
+          <TouchableOpacity onPress={() => this.handleFav(product.id,this.props.navigation)}>
           <View style={styles.items}>
               <Image
                 style={{height:110,padding:20,width:110,borderRadius:5,flex:1}}
-                source={{uri: 'https://gitlab.com/uploads/-/system/group/avatar/7865598/icon.png?width=64'}}
+                source={{uri: product.imageLink}}
               >
               </Image>
       
               <View style={{flexDirection:'column',flex:2}}>
                 <View style={{flexDirection:'row',justifyContent:'flex-start',alignContent:'center', marginLeft:20}}>
-                  <Text style={{fontSize:style.h3,fontWeight:'bold'}}>{name}</Text>
+                  <Text style={{fontSize:style.h3,fontWeight:'bold'}}>{product.name}</Text>
                 </View>
       
                 <View style={{flexDirection:'row',justifyContent:'flex-start',alignContent:'center', marginLeft:20}}>
-        <Text style={{}}>{location.cityName}, {location.country}</Text>
+        <Text style={{}}>{product.location.cityName}, {product.location.country}</Text>
                 </View>
       
                 <View style={{flexDirection:'column',justifyContent:'flex-end',alignItems:'flex-start', marginLeft:20,paddingVertical:20}}>
-                  <Text style={{color:colors.primary, fontWeight:'bold',fontSize:style.h2}}>{price}€ /day</Text>
+                  <Text style={{color:colors.primary, fontWeight:'bold',fontSize:style.h2}}>{product.price}€ /day</Text>
                 </View>
               
               </View>

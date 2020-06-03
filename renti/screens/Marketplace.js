@@ -24,7 +24,7 @@ export default class Marketplace extends React.Component {
     data: [],
     //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
     location: '',
-    max_price: '0',
+    max_price: '10000',
     min_price: '0',
     category: '',
     order: '',
@@ -196,17 +196,23 @@ export default class Marketplace extends React.Component {
 
   renderItems() {
     let items = this.state.data
-    return items.map( ({id,name,location,price},index) => {
+
+    return items.map( ({name,imageLink,location,price},index) => {
       //Fazer aqui um filtro pelo name
+      let image = imageLink;
+              if (image==null || image=="") {
+                image = 'https://www.geographicexperiences.com/wp-content/uploads/revslider/home5/placeholder-1200x500.png'
+              };
+
       if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
         return(
         <TouchableOpacity onPress={() => this.props.navigation.navigate("Marketplace", {
-          id: id
+          id: name
         }) }>
           <View style={styles.items}>
               <Image
                 style={{height:110,padding:20,width:110,borderRadius:5,flex:1}}
-                source={{uri: 'https://gitlab.com/uploads/-/system/group/avatar/7865598/icon.png?width=64'}}
+                source={{uri: image}}
               >
               </Image>
       
@@ -257,7 +263,7 @@ export default class Marketplace extends React.Component {
         onPress={this.openModal}
         >
           <AntDesign
-           name={'piechart'}
+           name={'filter'}
            size={moderateScale(30)}
            color="white"
           >
