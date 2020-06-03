@@ -19,13 +19,26 @@ export default class Marketplace extends React.Component {
   state = { 
     searchValue : '',
     data: [],
+    user_id : '',
     //esta filtragem vem da API, enviar estes campos e devolver ja os itens conforme esta filtragem
     //modal
     open : false
 
   }
 
+  _retriveData = async=> {
+    try {
+      await AsyncStorage.getItem("id")
+      this.setState({
+        user_id: id
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   componentDidMount(){
+    this._retriveData()
     this.getFavourites()
   }
 
@@ -37,7 +50,8 @@ export default class Marketplace extends React.Component {
     //GET Request
   getFavourites() {
       //Here only get the favourites of the user
-      let base_link = `${API_URL}/products?`
+      var userID = this.state.user_id
+      let base_link = `${API_URL}/favourites/${userID}`
 
       console.log(base_link)
       fetch(base_link, {
@@ -66,6 +80,36 @@ export default class Marketplace extends React.Component {
           alert("Error fetching products.");
           console.log(error);
         });
+    }
+
+    removeFavourite(prod_id){
+      let userID = localStorage.getItem('userID')
+      if (userID !=null) {
+        fetch(`${API_URL}/favourites`, {
+          method: 'DELETE',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({   
+            user : { id: userID},
+            product : { id : prod_id},
+          }
+        )})
+        //here have the user ID to show only his
+          .then(res => res.json())
+          .then(result => {
+              alert("Deleted from your favourites!")
+            },
+  
+            (error) => {
+              alert("Error deleting!")
+            }
+          );
+          
+      } else {
+        alert("Login first!")
+      }
     }
 
     handleModalClose(){

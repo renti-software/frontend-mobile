@@ -15,6 +15,7 @@ export default class Product extends React.Component {
   }
 
   state = { 
+    user_id : 0,
     product: {
       id : 0,
     }
@@ -22,7 +23,19 @@ export default class Product extends React.Component {
 
   componentDidMount(){
     this.updateItem()
+    this._retriveData()
   }
+
+  _retriveData = async=> {
+    try {
+      await AsyncStorage.getItem("id")
+      this.setState({
+        user_id: id
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   componentWillReceiveProps(){
     this.updateItem()
@@ -36,6 +49,36 @@ export default class Product extends React.Component {
       }
     })
     this.fetchProduct()
+  }
+
+  addFavourites(prod_id){
+    var user_id = this.state.user_id
+    if (user_id !=null) {
+      fetch(`${API_URL}/favourites`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({   
+          renter : { id: user_id},
+          product : { id : prod_id},
+        }
+      )})
+      //here have the user ID to show only his
+        .then(res => res.json())
+        .then(result => {
+            alert("You have added this product to your favourites!")
+          },
+
+          (error) => {
+            alert("Error adding!")
+          }
+        );
+        
+    } else {
+      alert("Login first!")
+    }
   }
 
   fetchProduct(){
@@ -66,6 +109,7 @@ export default class Product extends React.Component {
   }
 
   //GET Request
+  
 
 
   render() {
