@@ -130,6 +130,11 @@ export default class Marketplace extends React.Component {
     console.log(items)
     return items.map( ({id,product},index) => {
       //Fazer aqui um filtro pelo name
+      let image = product.imageLink;
+              if (image==null || image=="") {
+                image = 'https://www.geographicexperiences.com/wp-content/uploads/revslider/home5/placeholder-1200x500.png'
+              };
+
       if(product.name.toLowerCase().includes(this.state.searchValue.toLowerCase())){ //check why this isnt working
         return(
           <TouchableOpacity onPress={() => this.handleFav(product.id,this.props.navigation)}>
