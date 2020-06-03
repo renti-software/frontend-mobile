@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, AsyncStorage, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../constants/Colors'
 import style from '../constants/Style'
 
@@ -16,21 +16,21 @@ export default class Product extends React.Component {
 
   state = { 
     user_id : 0,
-    product: {
-      id : 0,
-    }
+    prod_id : 0,
   }
 
   componentDidMount(){
-    this.updateItem()
     this._retriveData()
+    this.updateItem()
   }
 
   _retriveData = async id=> {
     try {
       let id = AsyncStorage.getItem("id")
+      let prod_id = AsyncStorage.getItem('prod_id')
       this.setState({
-        user_id: id
+        user_id: id,
+        prod_id : prod_id
       })
     } catch (error) {
       console.log(error);
@@ -38,16 +38,12 @@ export default class Product extends React.Component {
   };
 
   componentWillReceiveProps(){
+    this._retriveData()
     this.updateItem()
   }
 
   async updateItem(){
-    console.log("Prouct id is: ",this.props.navigation.state.id)
-    await this.setState({
-      product: {
-        id : this.props.navigation.state.id
-      }
-    })
+    console.log("Prouct id is: ",this.state.prod_id)
     this.fetchProduct()
   }
 
