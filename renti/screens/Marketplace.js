@@ -194,10 +194,17 @@ export default class Marketplace extends React.Component {
     )
   }
 
+  handleProduct(prod_id,nav){
+
+    nav.navigate("Product", {
+      id: prod_id
+    })
+  }
+
   renderItems() {
     let items = this.state.data
 
-    return items.map( ({name,imageLink,location,price},index) => {
+    return items.map( ({id,name,imageLink,location,price},index) => {
       //Fazer aqui um filtro pelo name
       let image = imageLink;
               if (image==null || image=="") {
@@ -206,9 +213,7 @@ export default class Marketplace extends React.Component {
 
       if(name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
         return(
-        <TouchableOpacity onPress={() => this.props.navigation.navigate("Marketplace", {
-          id: name
-        }) }>
+        <TouchableOpacity onPress={() => this.handleProduct(id, this.props.navigation) }>
           <View style={styles.items}>
               <Image
                 style={{height:110,padding:20,width:110,borderRadius:5,flex:1}}

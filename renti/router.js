@@ -179,7 +179,7 @@ const AppNavigatorFinal = createSwitchNavigator(
     },
   },
   {
-    initialRouteName: "App",
+    initialRouteName: "Auth",
     navigationOptions : {
       tintColor : "white",
       headerTintStyle:"#ffffff"

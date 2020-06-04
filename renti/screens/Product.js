@@ -17,21 +17,23 @@ export default class Product extends React.Component {
   state = { 
     user_id : 0,
     prod_id : 0,
+    product : {}
   }
 
   componentDidMount(){
     this._retriveData()
-    this.updateItem()
   }
 
   _retriveData = async id=> {
     try {
       let id = AsyncStorage.getItem("id")
-      let prod_id = AsyncStorage.getItem('prod_id')
-      this.setState({
+      let param_id = this.props.navigation.state.params.id
+      console.log("Props id:" , param_id)
+      await this.setState({
         user_id: id,
-        prod_id : prod_id
+        prod_id : param_id
       })
+      this.updateItem()
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +41,6 @@ export default class Product extends React.Component {
 
   componentWillReceiveProps(){
     this._retriveData()
-    this.updateItem()
   }
 
   async updateItem(){
@@ -78,7 +79,7 @@ export default class Product extends React.Component {
   }
 
   fetchProduct(){
-    let base_link = `${API_URL}/products/${this.state.id}`
+    let base_link = `${API_URL}/products/${this.state.prod_id}`
     console.log(base_link)
       fetch(base_link, {
         method: "GET",
@@ -95,6 +96,9 @@ export default class Product extends React.Component {
           } else {
             // Success
             let message = json
+            this.setState({
+              product : json
+            })
 
           }
         })
@@ -113,16 +117,15 @@ export default class Product extends React.Component {
       <View style={styles.column_container}>
         <View style={styles.container}>
             <View style={{flex:1, alignItems:'center',paddingHorizontal:40}}>
-                <Text style={{fontSize:style.h1, fontWeight:'700'}}>{this.state.name}</Text>
+                <Text style={{fontSize:style.h1, fontWeight:'700'}}>{this.state.product.name}</Text>
                 <Image
                     style={{height:moderateScale(180),width:moderateScale(180),marginTop:10}}
-                    source={{uri: this.state.image}}
+                    source={{uri: this.state.product.imageLink}}
                 >
                 </Image>
-                <Text style={{fontSize:style.h3, fontWeight:'bold',color:colors.primary}}>{this.state.location}</Text>
-                <Text style={{fontSize:style.body, fontWeight:'700', textAlign:'justify',marginTop:10}}>{this.state.description}</Text>
+                <Text style={{fontSize:style.body, fontWeight:'700', textAlign:'justify',marginTop:10}}>{this.state.product.description}</Text>
             
-                <Text style={{fontSize:style.h1, fontWeight:'bold',color:colors.primary,marginTop:25}}>{this.state.price}€ /day</Text>
+                <Text style={{fontSize:style.h1, fontWeight:'bold',color:colors.primary,marginTop:25}}>{this.state.product.price}€ /day</Text>
                 <View style={{flexDirection:'row', marginTop:40}}>
                     <TouchableOpacity style={{alignItems:'center', height:verticalScale(44), borderRadius:8 ,backgroundColor:colors.orange, flex:1.3,marginRight:5}}>
                         {/* Aqui ligar logo otelemovel com o nr que vem do user */}
